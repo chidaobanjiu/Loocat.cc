@@ -13,4 +13,9 @@
     {% endif %}
 </div>
 {% include '__post.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macro.pagenation_widget(pagination, '.index') }}
+</div>
+{% endif %}
 {% endblock %}
