@@ -9,8 +9,8 @@ class FlaskClientTestCase(unittest.TestCase):
         self.app_context.push()
         db.create_all()
         Role.insert_roles()
-        self.client = self.app.test_client(use_cookies=True)
-      
+        self.client = self.app.test_client(use_cookies=True
+    
     def teardown(self):
         db.session.remove()
         db.drop_all()
@@ -20,3 +20,31 @@ class FlaskClientTestCase(unittest.TestCase):
         response = self.client.get(url_for('main.index'))
         self.assertTrue('Stranger' in response.get_data(as_text=True))
   
+    def test_register_and_login(self):
+        response = self.client.post(url_for('auth.register'), data={
+            'email': 'join@example.com',
+            'username': 'john',
+            'password': 'cat',
+            'password2': 'cat'
+        })
+        self.assertTrue(response.status_code ==302)
+                                           
+        response = self.client.post(url_for('auth.login'), data={
+            'email': 'join@example.com',
+            'password': 'cat',
+        }, follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertTrue(re.search('Hello,\s+join!', data))
+        self.assertTrue('You have not confirmed your account yet' in data)
+                                           
+        user = User.query.filter_by(email='john@example.com').first()
+        token = user.generate_confirmation_token()
+        response = self.client.get(url_for('auth.confirm', token=token),
+                                   follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertTrue('You have confirmed your account' in data)
+           
+        response = self.client.get(url_for('auth.logout'),
+                                           follow_redirects=True)
+        data = response.get_data(as_text=True)
+        self.assertTrue('You have been logged out' in data)
