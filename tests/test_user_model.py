@@ -2,7 +2,7 @@ import unittest
 import time
 from datetime import datetime
 from app import create_app, db
-from app.models import User, AnonymousUser, Role, Permission
+from app.models import User, AnonymousUser, Role, Permission, Follow
 
 
 class UserModelTestCase(unittest.TestCase):
@@ -150,7 +150,7 @@ class UserModelTestCase(unittest.TestCase):
         self.assertTrue('d=retro' in gravatar_retro)
         self.assertTrue('https://secure.gravatar.com/avatar/' +
                         'd4c74594d841139328695756648b6bd6' in gravatar_ssl)
-        
+
     def test_follows(self):
         u1 = User(email='john@example.com', password='cat')
         u2 = User(email='susan@example.org', password='dog')
@@ -188,3 +188,12 @@ class UserModelTestCase(unittest.TestCase):
         db.session.commit()
         self.assertTrue(Follow.query.count() == 1)
 
+    def test_to_json(self):
+        u = User(email='john@example.com', password='cat')
+        db.session.add(u)
+        db.session.commit()
+        json_user = u.to_json()
+        expected_keys = ['url', 'username', 'member_since', 'last_seen',
+                         'posts', 'followed_posts', 'post_count']
+        self.assertEqual(sorted(json_user.keys()), sorted(expected_keys))
+        self.assertTrue('api/v1.0/users/' in json_user['url'])
