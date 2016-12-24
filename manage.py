@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import os
 COV = None
-if os.environ.get('FLASK_COVERAGE')
+if os.environ.get('FLASK_COVERAGE'):
     import coverage
     COV = coverage.coverage(branch=True, include='app/*')
     cov.start()
 
 from app import create_app, db
-from app.models import User, Role, Permission, Post
+from app.models import User, Follow, Role, Permission, Post, Comment
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
@@ -17,8 +17,8 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Role=Role, Permission=Permission,
-                Post=Post)
+    return dict(app=app, db=db, User=User, Follow=Follow, Role=Role,
+                Permission=Permission, Post=Post, Comment=Comment)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
@@ -26,10 +26,10 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def test(coverage=False):
     """Run the unit tests."""
-    if coverage and not os.environ.get('FLASK_COVERAGE')
+    if coverage and not os.environ.get('FLASK_COVERAGE'):
         import sys
         os.environ['FLASK_COVERAGE'] = '1'
-        os.execvp(sys.executable, [sys.excutable] + sys.argv)
+        os.execvp(sys.executable, [sys.executable] + sys.argv)
     import unittest
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
@@ -43,8 +43,9 @@ def test(coverage=False):
         COV.html_report(directory=covdir)
         print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
-        
-@manage.command
+
+
+@manager.command
 def profile(length=25, profile_dir=None):
     """Start the application under the code profiler."""
     from werkzeug.contrib.profiler import ProfilerMiddleware
@@ -52,19 +53,22 @@ def profile(length=25, profile_dir=None):
                                       profile_dir=profile_dir)
     app.run()
 
-@manage.command
+
+@manager.command
 def deploy():
-    """Run deployment tasks"""
+    """Run deployment tasks."""
     from flask_migrate import upgrade
     from app.models import Role, User
-    
-    #把数据库迁移到最新修订版本
+
+    # migrate database to latest revision
     upgrade()
-    
-    #创建用户角色
+
+    # create user roles
     Role.insert_roles()
-    
-    #让所有用户关注此用户
+
+    # create self-follows for all users
     User.add_self_follows()
+
+
 if __name__ == '__main__':
     manager.run()

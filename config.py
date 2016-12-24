@@ -18,9 +18,9 @@ class Config:
     FLASKY_POSTS_PER_PAGE = 20
     FLASKY_FOLLOWERS_PER_PAGE = 50
     FLASKY_COMMENTS_PER_PAGE = 30
-    FLASKY_DB_QUERY_TIMEOUT = 0.5
-    
-    
+    FLASKY_SLOW_DB_QUERY_TIME = 0.5
+
+
     @staticmethod
     def init_app(app):
         pass
@@ -42,11 +42,11 @@ class TestingConfig(Config):
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
-    
-    @classmethed
+
+    @classmethod
     def init__app(cls, app):
         Config.init__app(app)
-        
+
         import logging
         from logging.handlers import SMTPHandler
         credentials = None
@@ -64,7 +64,7 @@ class ProductionConfig(Config):
             secure=secure)
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
-    
+
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
