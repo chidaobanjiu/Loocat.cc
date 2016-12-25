@@ -226,7 +226,7 @@ class User(UserMixin, db.Model):
         if f:
             db.session.delete(f)
 
-    def following(self, user):
+    def is_following(self, user):
         return self.followed.filter_by(
             followed_id=user.id).first() is not None
 
@@ -243,7 +243,7 @@ class User(UserMixin, db.Model):
         json_user = {
             'url': url_for('api.get_user', id=self.id, _external=True),
             'username': self.username,
-            'menber_since': self.member_since,
+            'member_since': self.member_since,
             'last_seen': self.last_seen,
             'posts': url_for('api.get_user_posts', id=self.id, _external=True),
             'followed_posts': url_for('api.get_user_followed_posts',

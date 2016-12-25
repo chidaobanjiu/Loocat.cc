@@ -4,7 +4,7 @@ COV = None
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
     COV = coverage.coverage(branch=True, include='app/*')
-    cov.start()
+    COV.start()
 
 from app import create_app, db
 from app.models import User, Follow, Role, Permission, Post, Comment
@@ -57,7 +57,7 @@ def profile(length=25, profile_dir=None):
 @manager.command
 def deploy():
     """Run deployment tasks."""
-    from flask_migrate import upgrade
+    from flask.ext.migrate import upgrade
     from app.models import Role, User
 
     # migrate database to latest revision
