@@ -33,6 +33,20 @@ def server_shutdown():
 
 
 @main.route('/', methods=['GET', 'POST'])
+def welcome():
+    form = PostForm()
+    page = request.args.get('page', 1, type=int)
+    query = Post.query
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out=False)
+    posts = pagination.items
+    return render_template('wel.html', form=form, posts=posts,
+                           pagination=pagination, user=current_user)
+
+
+
+@main.route('/home', methods=['GET', 'POST'])
 def index():
     form = PostForm()
     if current_user.can(Permission.WRITE_ARTICLES) and \
@@ -54,7 +68,8 @@ def index():
         error_out=False)
     posts = pagination.items
     return render_template('index.html', form=form, posts=posts,
-                           show_followed=show_followed, pagination=pagination)
+                           show_followed=show_followed, pagination=pagination,
+                           user=current_user)
 
 
 @main.route('/user/<username>')
