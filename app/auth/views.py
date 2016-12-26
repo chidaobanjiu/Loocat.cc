@@ -41,8 +41,9 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    user = current_user
     logout_user()
-    flash('You have been logged out.')
+    flash('You have logged out.')
     return redirect(url_for('main.index'))
 
 

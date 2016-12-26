@@ -32,8 +32,8 @@ def server_shutdown():
     return 'Shutting down...'
 
 
-@main.route('/', methods=['GET', 'POST'])
-def welcome():
+@main.route('/blogs', methods=['GET', 'POST'])
+def blogs():
     form = PostForm()
     page = request.args.get('page', 1, type=int)
     query = Post.query
@@ -41,8 +41,12 @@ def welcome():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
-    return render_template('wel.html', form=form, posts=posts,
+    return render_template('blogs.html', form=form, posts=posts,
                            pagination=pagination, user=current_user)
+
+@main.route('/', methods=['GET'])
+def welcome():
+    return render_template('wel.html', user=current_user)
 
 
 

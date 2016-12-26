@@ -23,10 +23,9 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{ url_for('main.index') }}">Home</a></li>
-                {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
-                {% endif %}
+                <li><a href="{{ url_for('main.blogs') }}">Blogs</a></li>
+                <li><a href="{{ url_for('main.index') }}">Writing</a></li>
+                <li><a href="https://github.com/chidaobanjiu" target="_blank">Github</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.can(Permission.MODERATE_COMMENTS) %}
@@ -41,6 +40,9 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+                        {% if current_user.is_authenticated %}
+                        <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>
                 </li>
