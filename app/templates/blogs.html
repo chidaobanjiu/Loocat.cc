@@ -4,9 +4,17 @@
 
 {% block title %}Welcome to 2077{% endblock %}
 
+{% block navbar_list %}
+<ul class="nav navbar-nav">
+    <li class="active"><a href="{{ url_for('main.blogs') }}">Blogs</a></li>
+    <li><a href="{{ url_for('main.index') }}">Writing</a></li>
+    <li><a href="https://github.com/chidaobanjiu" target="_blank">Github</a></li>
+</ul>
+{% endblock %}
+
 {% block page_content %}
 <div class="page-header">
-    <h1>{% if current_user.is_authenticated %}{{ current_user.username }}'s Blogs{% else %}Here are some Blogs!{% endif %}</h1>
+    <h2>{% if current_user.is_authenticated %}{{ current_user.username }}'s Blogs{% else %}Here are some Blogs!{% endif %}</h2>
 </div>
 <div class="post-tabs">
     {% include '_posts.html' %}
