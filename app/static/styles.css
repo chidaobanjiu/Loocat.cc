@@ -1,7 +1,5 @@
 /* Links */
-a {
-    color:#fff;
-}
+a,
 a:focus,
 a:hover {
   color: #fff;
@@ -17,78 +15,94 @@ h1,h2,h3,h4 {
 div.container {
     width: 100%;
 }
-div.page-content {
-    width: 100%;
-    height: auto;
-}
 
-/*page-header*/
-div.page-header {
-    text-align: center;
-    width: 60%;
+/*header标题栏*/
+div.header {
     margin: auto;
+    background-color: #bdf;
+    background-size: auto;
 }
-div.header > p{
-    padding: 3% 0 3% 0;
+div.header > .blog-name {
+    margin: auto;
+    padding: 3% 0 2% 0;
     width: 100%;
     font-size: 40px;
     font-family: fantasy;
     text-align: center;
-    background-color: #ace;
-    color: #135;
+    color: #000;
 }
 div.header > p > a {
-    color: #135;
+    color: #000;
 }
 
+/*page-header*/
+div.page-header {
+    width: 60%;
+    height: auto;
+    margin: auto;
+    background-color: #fff;
+}
+div.page-header > h2{
+    margin: 2% 0 2% 0;
+    text-align: center;
+}
+div.profile-header {
+}
+
+.header + .navbar {
+    margin: 0;
+}
 /*navbar(Header)*/
 .navbar-inverse {
     width: 100%;
     height: 3%;
-    background-color: #579;
+    margin: auto;
+    background-color: #9ce;
     border-style: none;
 }
 .navbar > .container {
     text-align: center;
 }
+.navbar-header {
+    font-size: bold;
+
+}
 .navbar-collapse {
-    width: 50%;
-    margin: auto;
     text-align: center;
+    width: 50%;
+    margin: 0 ;
 }
 .navbar-nav {
-    text-align: center;
 }
 .nav > li {
     margin: auto;
     display: inline-block;
     color: #fff;
 }
-.navbar-right {
-    float: right;
-}
 .navbar-nav > li + li {
     margin-left: 20px;
+}
+.navbar-nav > li:hover {
+    background-color: transparent;
+    color: #fff;
 }
 .navbar-nav > li > a {
     padding-right: 0;
     padding-left: 0;
     font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    border-bottom: 2px solid transparent;
+    font-style: normal;
+    color: #000;
+    border-bottom: 3px solid transparent;
 }
 
 .navbar-nav> li > a:hover,
 .navbar-nav > li > a:focus {
     color: #fff;
-    border-bottom-color: #a9a9a9;
-    border-bottom-color: rgba(255,255,255,.25);
+    border-bottom-color: #fff;
 }
-.navbar-nav > .active > a,
-.navbar-nav > .active > a:hover,
-.navbar-nav > .active > a:focus {
+.active {
     color: #fff;
+    background-color: inherit;
     border-bottom-color: #fff;
 }
 
@@ -98,9 +112,6 @@ div.header > p > a {
   }
   .navbar-nav {
       float: left;
-  }
-  .navbar-right {
-      float: right;
   }
 }
 /*Writing*/
@@ -160,8 +171,7 @@ ul.posts li.post  {
     border-width: 0;
 }
 h4.post-date {
-    font-size: 24px
-    color: #000;
+    font-size: 20px;
     font-style: italic;
 }
 h4.post-date > a {
@@ -216,9 +226,13 @@ div.post-footer {
 }
 /*comments under the post*/
 ul.comments {
+    background-color: #fff;
     list-style-type: none;
     padding: 0px;
     margin: 16px 0px 0px 0px;
+}
+li.comment > a {
+    color: #ace;
 }
 ul.comments li.comment {
     margin-left: 32px;
@@ -228,9 +242,6 @@ ul.comments li.comment {
 ul.comments li.comment:nth-child(1) {
     border-top: 1px solid #e0e0e0;
 }
-ul.comments li.comment:hover {
-    background-color: #f0f0f0;
-}
 div.comment-date {
     float: right;
 }
@@ -238,6 +249,7 @@ div.comment-author {
     font-weight: bold;
 }
 div.comment-thumbnail {
+    color: #ace;
     position: absolute;
 }
 div.comment-content {
