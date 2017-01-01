@@ -32,7 +32,7 @@ body {
 body {
   color: #fff;
   text-align: center;
-  /*text-shadow: 0 1px 3px rgba(0,0,0,.5)*/;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -63,13 +63,13 @@ body {
  * Header
  */
 .masthead-brand {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
   color: #fff;
 }
 
 .masthead-nav > li {
-  display: inline-block;
+  display: inline-table;
 }
 .masthead-nav > li + li {
   margin-left: 20px;
@@ -77,7 +77,7 @@ body {
 .masthead-nav > li > a {
   padding-right: 0;
   padding-left: 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
   color: #fff; /* IE8 proofing */
   /*color: rgba(255,255,255,.75);*/
@@ -92,8 +92,8 @@ body {
 .masthead-nav > .active > a,
 .masthead-nav > .active > a:hover,
 .masthead-nav > .active > a:focus {
-  color: #fff;
-  border-bottom-color: #fff;
+  color: #ace;
+  border-bottom-color: #ace;
 }
 
 @media (min-width: 768px) {
@@ -136,6 +136,7 @@ body {
 .mastfoot {
   color: #999; /* IE8 proofing */
   color: rgba(255,255,255,.5);
+  margin-bottom: 10px;
 }
 
 

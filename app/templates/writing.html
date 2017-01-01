@@ -5,11 +5,9 @@
 {% block title %}{{ user.username }} in 2077{% endblock %}
 
 {% block navbar_list %}
-<ul class="nav navbar-nav">
     <li><a href="{{ url_for('main.blogs') }}">Blogs</a></li>
     <li class="active"><a href="{{ url_for('main.index') }}">Writing</a></li>
     <li><a href="https://github.com/chidaobanjiu" target="_blank">Github</a></li>
-</ul>
 {% endblock %}
 
 {% block page_content %}
@@ -21,20 +19,6 @@
     {{ wtf.quick_form(form) }}
     {% endif %}
 </div>
-<!--<div class="post-tabs">
-    <ul class="nav nav-tabs">
-        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">All</a></li>
-        {% if current_user.is_authenticated %}
-        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">Followers</a></li>
-        {% endif %}
-    </ul>
-    {% include '_posts.html' %}
-</div>
-{% if pagination %}
-<div class="pagination">
-    {{ macros.pagination_widget(pagination, '.index') }}
-</div>
-{% endif %}-->
 {% endblock %}
 
 {% block scripts %}

@@ -4,48 +4,45 @@
 
 {% block head %}
 {{ super() }}
+<style>
+    body {
+        background-color: rgb(245,242,238);
+    }
+</style>
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon2.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='favicon2.ico') }}" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css.css') }}">
+<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap.min.css') }}">-->
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 {% endblock %}
 
 {% block navbar %}
+<div class="header">
+    <p class="blog-name">
+        <a href="{{ url_for('main.blogs') }}">Manasseh in -2077-</a>
+
+    </p>
+</div>
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{{ url_for('main.welcome') }}">2077</a>
-        </div>
         <div class="navbar-collapse collapse">
-            {% block navbar_list%}
             <ul class="nav navbar-nav">
+                {% block navbar_list%}
                 <li><a href="{{ url_for('main.blogs') }}">Blogs</a></li>
                 <li><a href="{{ url_for('main.index') }}">Writing</a></li>
                 <li><a href="https://github.com/chidaobanjiu" target="_blank">Github</a></li>
-            </ul>
-            {% endblock %}
-            <ul class="nav navbar-nav navbar-right">
+                {% endblock %}
                 {% if current_user.can(Permission.MODERATE_COMMENTS) %}
                 <li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
                 {% endif %}
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ current_user.gravatar(size=18) }}">
-                        Account <b class="caret"></b>
+                        {{ current_user.username }} <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
-                        {% if current_user.is_authenticated %}
                         <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
-                        {% endif %}
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>
                 </li>
