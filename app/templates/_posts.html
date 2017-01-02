@@ -1,23 +1,32 @@
 <ul class="posts">
     {% for post in posts %}
-    <li class="post">
+    <li class="blog-post">
+        <div class="blog-post-title">
+            <a href="{{ url_for('.post', id=post.id) }}">
+            {% if post.title_html %}
+                {{ post.title_html | safe }}
+            {% else %}
+                {{ post.title }}
+            {% endif %}
+            </a>
+        </div>
         <div class="post-thumbnail">
             <!--<a href="{{ url_for('.user', username=post.author.username) }}">
                 <img class="img-rounded profile-thumbnail" src="{{ post.author.gravatar(size=40) }}">
             </a>-->
-            <h4 class="post-date">
+            <p class="blog-post-meta">
                 Posted on <a href="{{ url_for('.user', username=post.author.username) }}">{{ moment(post.timestamp).format('LL') }}</a>
-            </h4>
+            </p>
         </div>
-        <div class="post-content">
-            <div class="post-body">
+        <div class="blog-post-content">
+            <div class="blog-post-body">
                 {% if post.body_html %}
                     {{ post.body_html | safe }}
                 {% else %}
                     {{ post.body }}
                 {% endif %}
             </div>
-            <div class="post-footer">
+            <div class="blog-post-footer">
                 {% if current_user == post.author %}
                 <a href="{{ url_for('.edit', id=post.id) }}">
                     <span class="label label-primary">Edit</span>

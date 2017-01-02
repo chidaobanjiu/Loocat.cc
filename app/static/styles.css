@@ -2,18 +2,16 @@
 a,
 a:focus,
 a:hover {
-  color: #fff;
+  color: #39a;
   text-decoration : none;
+}
+body {
+    background-color: rgb(245,242,238);
 }
 
 /*font-family*/
 h1,h2,h3,h4 {
     font-family: SimSun, sans-serif;
-}
-
-/*page-content*/
-div.container {
-    width: 100%;
 }
 
 /*header标题栏*/
@@ -52,103 +50,7 @@ div.profile-header {
 .header + .navbar {
     margin: 0;
 }
-/*navbar(Header)*/
-.navbar-inverse {
-    width: 100%;
-    height: 3%;
-    margin: auto;
-    background-color: #9ce;
-    border-style: none;
-}
-.navbar > .container {
-    text-align: center;
-}
-.navbar-header {
-    font-size: bold;
 
-}
-.navbar-collapse {
-    text-align: center;
-    width: 50%;
-    margin: 0 ;
-}
-.navbar-nav {
-}
-.nav > li {
-    margin: auto;
-    display: inline-block;
-    color: #fff;
-}
-.navbar-nav > li + li {
-    margin-left: 20px;
-}
-.navbar-nav > li:hover {
-    background-color: transparent;
-    color: #fff;
-}
-.navbar-nav > li > a {
-    padding-right: 0;
-    padding-left: 0;
-    font-size: 18px;
-    font-style: normal;
-    color: #000;
-    border-bottom: 3px solid transparent;
-}
-
-.navbar-nav> li > a:hover,
-.navbar-nav > li > a:focus {
-    color: #fff;
-    border-bottom-color: #fff;
-}
-.active {
-    color: #fff;
-    background-color: inherit;
-    border-bottom-color: #fff;
-}
-
-@media (min-width: 768px) {
-  .navbar-brand {
-      float: left;
-  }
-  .navbar-nav {
-      float: left;
-  }
-}
-/*Writing*/
-.writer {
-    background-color: #fff;
-    height: 50%;
-    width: 90%;
-    margin: auto;
-}
-.form {
-    width: 80%;
-    margin: auto;
-}
-.form-group {
-    margin: auto;
-}
-#flask-pagedown-body {
-    margin: 2% auto 2% auto;
-    width: 100%;
-    height: 412px;
-}
-#flask-pagedown-body-preview {
-    margin: 0 auto 2%;
-    width: 100%;
-}
-#submit {
-    margin: 0 0 2% 94%;
-}
-
-/*User profile-page*/
-.profile-thumbnail {
-    position: absolute;
-}
-.profile-header {
-    min-height: 260px;
-    margin-left: 280px;
-}
 
 /*posts in home and writing*/
 div.post-tabs {
@@ -164,18 +66,21 @@ div.post-tabs ul.posts {
     border-top: none;
 }
 ul.posts li.post  {
-    padding: 2%;
+    padding: 2% 5%;
     margin: 30px 20px;
     background-color: white;
     border-style: groove;
     border-width: 0;
 }
 h4.post-date {
+    padding: 0 0 1%;
     font-size: 20px;
     font-style: italic;
+    font-family: sans-serif;;
 }
 h4.post-date > a {
     color: #9bd;
+    background-color: transparent;
     font-weight: bolder;
 }
 h4.post-date > a:hover {
@@ -183,28 +88,27 @@ h4.post-date > a:hover {
 }
 div.post-thumbnail {
     text-align: center;
-    margin-top: 2%;
+    margin-top: 1%;
+}
+div.post-title {
+    font-weight: bold;
+    text-align: center;
+    font-size: 30px;
+    font-family:  SimSun sans-serif;
+    margin:0 0;
+    padding: 0 0;
+    color: #9bd;
+}
 }
 div.post-content {
     font-size: 24px;
-    font-family:  SimSun;
+    font-family: SimSun sans-serif;
     margin: 1% 15% 1% 15%;
     min-height: 20%;
 }
-/*post-footer标签*/
-.label {
-    background-color: #9bd;
-}
-.label:hover {
-    background-color: #ace;
-}
-/*writing标签*/
-.control-label {
-
-}
 div.post-footer {
     text-align: right;
-    margin:5% 0 0 0;
+    margin:3% 0 0 0;
 }
 
 /*post-body*/
@@ -224,6 +128,18 @@ div.post-footer {
 .post-body a {
     color: #ace;
 }
+/*post-footer标签*/
+.label {
+    background-color: #9bd;
+}
+.label:hover {
+    background-color: #ace;
+}
+/*writing标签*/
+.control-label {
+
+}
+
 /*comments under the post*/
 ul.comments {
     background-color: #fff;

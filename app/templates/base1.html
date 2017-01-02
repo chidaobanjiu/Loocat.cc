@@ -1,0 +1,80 @@
+{% extends "Fixed.html" %}
+
+{% block head %}
+{% block styles %}
+<style>
+    body {
+        background-color: rgb(245,242,238);
+    }
+</style>
+{% endblock %}
+{% block title %}Blogs|2077{% endblock %}
+{{ super() }}
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon2.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='favicon2.ico') }}" type="image/x-icon">
+<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">-->
+{% endblock %}
+
+{% block navbar %}
+<div class="header">
+    <p class="blog-name">
+        <a href="{{ url_for('main.blogs') }}">Manasseh in -2077-</a>
+
+    </p>
+</div>
+<nav id="site-navigation" class="main-navigation toggled" role="navigation">
+    <h1 class="menu-toggle">Menu</h1>
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+    <div class="navbar-menu">
+        <ul class="navbar-menu">
+            {% block navbar_list%}
+            <li><a href="{{ url_for('main.blogs') }}">Home</a></li>
+            <li><a href="{{ url_for('main.index') }}">Writing</a></li>
+            <li><a href="https://github.com/chidaobanjiu" target="_blank">Github</a></li>
+            {% endblock %}
+            {% if current_user.can(Permission.MODERATE_COMMENTS) %}
+            <li><a href="{{ url_for('main.moderate') }}">Moderate Comments</a></li>
+            {% endif %}
+            {% if current_user.is_authenticated %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {{ current_user.username }} <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
+                    <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
+                    <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                </ul>
+            </li>
+            {% else %}
+            <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div id="content" class="container">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="page-content">
+    {% block page_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
+<script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='jquery.min.js.下载') }}"></script>
+<script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='bootstrap.min.js.下载') }}"></script>
+<script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='docs.min.js.下载') }}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='ie10-viewport-bug-workaround.js.下载') }}"></script>
+{% endblock %}

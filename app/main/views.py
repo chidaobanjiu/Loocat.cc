@@ -46,7 +46,7 @@ def blogs():
 
 @main.route('/', methods=['GET'])
 def welcome():
-    return render_template('wel.html', user=current_user)
+    return render_template('base.html', user=current_user)
 
 
 
@@ -55,7 +55,8 @@ def index():
     form = PostForm()
     if current_user.can(Permission.WRITE_ARTICLES) and \
             form.validate_on_submit():
-        post = Post(body=form.body.data,
+        post = Post(title=form.title.data,
+                    body=form.body.data,
                     author=current_user._get_current_object())
         db.session.add(post)
         return redirect(url_for('.index'))
@@ -151,6 +152,7 @@ def edit(id):
         abort(403)
     form = PostForm()
     if form.validate_on_submit():
+        post.title = form.title.data
         post.body = form.body.data
         db.session.add(post)
         flash('The post has been updated.')

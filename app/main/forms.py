@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
     SubmitField
@@ -51,7 +52,8 @@ class EditProfileAdminForm(Form):
 
 
 class PostForm(Form):
-    body = PageDownField("",validators=[Required()])
+    title = PageDownField("Title",validators=[Required()])
+    body = PageDownField("Content",validators=[Required()])
     submit = SubmitField('Submit')
 
 

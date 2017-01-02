@@ -121,6 +121,7 @@ class APITestCase(unittest.TestCase):
         response = self.client.post(
             url_for('api.new_post'),
             headers=self.get_api_headers('john@example.com', 'cat'),
+            title=json.dumps({'title': ''}),
             data=json.dumps({'body': ''}))
         self.assertTrue(response.status_code == 400)
 
@@ -128,6 +129,7 @@ class APITestCase(unittest.TestCase):
         response = self.client.post(
             url_for('api.new_post'),
             headers=self.get_api_headers('john@example.com', 'cat'),
+            title=json.dumps({'title', 'this is for test'}),
             data=json.dumps({'body': 'body of the *blog* post'}))
         self.assertTrue(response.status_code == 201)
         url = response.headers.get('Location')
@@ -140,6 +142,9 @@ class APITestCase(unittest.TestCase):
         self.assertTrue(response.status_code == 200)
         json_response = json.loads(response.data.decode('utf-8'))
         self.assertTrue(json_response['url'] == url)
+        self.assertTrue(json_response['title'] == 'this is for test')
+        self.assertTrue(json_response['title_html'] ==
+                        '<p>this is for test</p>')
         self.assertTrue(json_response['body'] == 'body of the *blog* post')
         self.assertTrue(json_response['body_html'] ==
                         '<p>body of the <em>blog</em> post</p>')
@@ -148,16 +153,6 @@ class APITestCase(unittest.TestCase):
         # get the post from the user
         response = self.client.get(
             url_for('api.get_user_posts', id=u.id),
-            headers=self.get_api_headers('john@example.com', 'cat'))
-        self.assertTrue(response.status_code == 200)
-        json_response = json.loads(response.data.decode('utf-8'))
-        self.assertIsNotNone(json_response.get('posts'))
-        self.assertTrue(json_response.get('count', 0) == 1)
-        self.assertTrue(json_response['posts'][0] == json_post)
-
-        # get the post from the user as a follower
-        response = self.client.get(
-            url_for('api.get_user_followed_posts', id=u.id),
             headers=self.get_api_headers('john@example.com', 'cat'))
         self.assertTrue(response.status_code == 200)
         json_response = json.loads(response.data.decode('utf-8'))

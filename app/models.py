@@ -11,9 +11,9 @@ from . import db, login_manager
 
 
 class Permission:
-    COMMENT = 0x02
-    WRITE_ARTICLES = 0x04
-    MODERATE_COMMENTS = 0x08
+    COMMENT = 0x01
+    WRITE_ARTICLES = 0x02
+    MODERATE_COMMENTS = 0x04
     ADMINISTER = 0x80
 
 
@@ -97,7 +97,6 @@ class User(UserMixin, db.Model):
         if self.email is not None and self.avatar_hash is None:
             self.avatar_hash = hashlib.md5(
                 self.email.encode('utf-8')).hexdigest()
-        self.followed.append(Follow(followed=self))
 
     @property
     def password(self):
@@ -236,6 +235,8 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
+    title = db.Column(db.Text)
+    title_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
@@ -250,6 +251,7 @@ class Post(db.Model):
         for i in range(count):
             u = User.query.offset(randint(0, user_count - 1)).first()
             p = Post(body=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
+                     title=forgery_py.lorem_ipsum.sentences(randint(1, 5)),
                      timestamp=forgery_py.date.date(True),
                      author=u)
             db.session.add(p)
@@ -264,11 +266,21 @@ class Post(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
+    def on_changed_title(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
+                        'h1', 'h2', 'h3', 'p']
+        target.title_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
     def to_json(self):
         json_post = {
             'url': url_for('api.get_post', id=self.id, _external=True),
             'body': self.body,
             'body_html': self.body_html,
+            'title': self.title,
+            'title_html': self.title_html,
             'timestamp': self.timestamp,
             'author': url_for('api.get_user', id=self.author_id,
                               _external=True),
@@ -280,13 +292,15 @@ class Post(db.Model):
 
     @staticmethod
     def from_json(json_post):
+        title = json_post.get('title')
         body = json_post.get('body')
-        if body is None or body == '':
-            raise ValidationError('post does not have a body')
-        return Post(body=body)
+        if body is None or body == '' or title is None or title == '':
+            raise ValidationError('post does not have a body or title')
+        return Post(body=body, title=title)
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
+db.event.listen(Post.title, 'set', Post.on_changed_title)
 
 
 class Comment(db.Model):
