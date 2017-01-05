@@ -2,7 +2,7 @@
     {% for post in posts %}
     <li class="blog-post">
         <div class="blog-post-title">
-            <a href="{{ url_for('.post', id=post.id) }}">
+            <a class="blog-post-title" href="{{ url_for('.post', id=post.id) }}">
             {% if post.title_html %}
                 {{ post.title_html | safe }}
             {% else %}
@@ -11,11 +11,7 @@
             </a>
         </div>
         <div class="post-thumbnail">
-            <!--<a href="{{ url_for('.user', username=post.author.username) }}">
-                <img class="img-rounded profile-thumbnail" src="{{ post.author.gravatar(size=40) }}">
-            </a>-->
-            <p class="blog-post-meta">
-                Posted on <a href="{{ url_for('.user', username=post.author.username) }}">{{ moment(post.timestamp).format('LL') }}</a>
+            <p class="blog-post-meta">Posted on <a href="{{ url_for('.user', username=post.author.username) }}">{{ moment(post.timestamp).format('LL') }}</a>
             </p>
         </div>
         <div class="blog-post-content">

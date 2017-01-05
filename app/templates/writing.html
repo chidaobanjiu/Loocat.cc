@@ -2,18 +2,20 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-{% block title %}{{ user.username }} Writing in 2077{% endblock %}
+{% block title %}Writing|2077{% endblock %}
 
 {% block navbar %}
 <li><a href="{{ url_for('main.blogs') }}">Home</a></li>
 <li class="active"><a href="{{ url_for('main.index') }}">Writing</a></li>
-<li><a href="https://github.com/chidaobanjiu" target="_blank">GitHub</a></li>
 {% endblock %}
 
-{% block page_content %}
-<div class="page-header">
-    <h2>人间岁月堂堂去，劝君快上青云路</h2>
+{% block pageheader %}
+<div class="blog-title">
+    <h1>人间岁月堂堂去，劝君快上青云路</h1>
 </div>
+{% endblock %}
+
+{% block content %}
 <div class="writer" >
     {% if current_user.can(Permission.WRITE_ARTICLES) %}
     {{ wtf.quick_form(form) }}

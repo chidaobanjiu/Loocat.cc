@@ -6,6 +6,10 @@ body {
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
 }
+a {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+}
 
 h1, .h1,
 h2, .h2,
@@ -116,18 +120,30 @@ nav.navbar {
 
 /*Blog-content-container*/
 body > div.container {
-    margin-top: 2%;
+    margin-top: 4%;
+}
+
+/*Blog-row except sidebar*/
+ul.posts {
+    list-style: none;
+    padding: 0;
+}
+
+div.blog-post-footer > a:hover,
+p.blog-post-meta > a:hover,
+a.blog-post-title:hover {
+    text-decoration: none;
 }
 /*
  * Blog name and description
  */
 
 .blog-header {
-  padding-top: 20px;
+  padding-top: 0px;
   padding-bottom: 20px;
 }
 .blog-title {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 0;
   font-size: 60px;
   font-weight: normal;
@@ -163,17 +179,24 @@ body > div.container {
   margin-bottom: 0;
 }
 
+/*Writer*/
+.writer {
+    background-color: #f5f5f5;
+    width: 100%;
+    height: 49%;
+}
 
 /* Pagination */
 .pager {
-  margin-bottom: 60px;
+  margin-bottom: 80px;
   text-align: left;
 }
 .pager > li > a {
-  width: 140px;
-  padding: 10px 20px;
+  width: 70px;
+  height: 40px;
+  padding: 7px 20px;
   text-align: center;
-  border-radius: 30px;
+  border-radius: 20px;
 }
 
 

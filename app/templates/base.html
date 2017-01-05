@@ -43,7 +43,7 @@
                 </div>
                 <div id="blog-nav" class="navbar-collapse collapse">
                   <nav class="blog-nav">
-                    <a class="blog-nav-item active" href="{{ url_for('main.index') }}">Back to top</a>
+                    <a class="blog-nav-item active" href="{{ url_for('main.blogs') }}">Back to top</a>
                     <a class="blog-nav-item" href="{{ url_for('main.index') }}">Writing</a>
                     <!--<a class="blog-nav-item" href="http://v3.bootcss.com/examples/blog/#">Press</a>
                     <a class="blog-nav-item" href="http://v3.bootcss.com/examples/blog/#">GitHub</a>-->
@@ -70,36 +70,30 @@
               {% block navbar %}
               <li class="active"><a href="{{ url_for('main.blogs') }}">Home</a></li>
               <li><a href="{{ url_for('main.index') }}">Writing</a></li>
-              <li><a href="https://github.com/chidaobanjiu" target="_blank">GitHub</a></li>
               {%- endblock navbar %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="https://www.baidu.com">Do not touch!</a></li>
               {% if current_user.is_authenticated %}
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       {{ current_user.username }}<span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                      <li><a href="{{ url_for('auth.logout') }}">登出</a></li>
                       <li class="divider"></li>
-                      <li class="dropdown-header">User Profile</li>
-                      <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
-                      <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
-                      <li><a href="{{ url_for('main.user', username=current_user.username) }}">Profile</a></li>
+                      <li class="dropdown-header">账户信息</li>
+                      <li><a href="{{ url_for('auth.change_password') }}">更改密码</a></li>
+                      <li><a href="{{ url_for('auth.change_email_request') }}">更改邮箱地址</a></li>
+                      <li><a href="{{ url_for('main.user', username=current_user.username) }}">用户信息更改</a></li>
                   </ul>
               </li>
               {% else %}
-              <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+              <li><a href="{{ url_for('auth.login') }}">登入</a></li>
               {% endif %}
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </nav>
-
-
-    <!--page-content blogs. pager. and sidebar except footer-->
-    {% block content -%}
 
     <!--messages in container-->
     <div id="content" class="container">
@@ -110,12 +104,15 @@
         </div>
         {% endfor %}
         <!--blog header-->
+        {% block pageheader -%}
         <div class="blog-header">
-            <h1 class="blog-title">The Bootstrap Blog</h1>
-            <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+            <h1 class="blog-title">博客</h1>
+            <p>________________________________</p>
+            <p class="lead blog-description">人间岁月堂堂去，劝君快上青云路</p>
         </div>
-
+        {%- endblock pageheader %}
         <!--blog row for blogs-->
+        {% block content -%}
         <div class="row">
           <div class="col-sm-8 blog-main">
             <div class="page-content">
@@ -160,9 +157,9 @@
           <div class="sidebar-module">
             <h4>Elsewhere</h4>
             <ol class="list-unstyled">
-              <li><a href="http://github.com/chidaobanjiu">GitHub</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">Twitter</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">Facebook</a></li>
+              <li><a href="http://github.com/chidaobanjiu" target="_blank">GitHub</a></li>
+              <li><a href="http://twitter.com/" target="_blank">Twitter</a></li>
+              <li><a href="http://facebook.com/" target="_blank">Facebook</a></li>
             </ol>
           </div>
         </div><!-- /.blog-sidebar -->
@@ -175,7 +172,7 @@
     <div class="blog-footer">
       <p>Powered by <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://flask.pocoo.org/">Flask</a>.</p>
       <p>
-        <a href="{{url_for('main.index')}}">Back to top</a>
+        <a href="{{url_for('main.blogs')}}">Back to top</a>
       </p>
     </div>
 
@@ -189,6 +186,7 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="..static/ie10-viewport-bug-workaround.js.下载"></script>
     {% block scripts %}
+    {{ moment.include_moment() }}
     {%- endblock scripts %}
 
     <div id="global-zeroclipboard-html-bridge" class="global-zeroclipboard-container" title="" style="position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;" data-original-title="Copy to clipboard">
