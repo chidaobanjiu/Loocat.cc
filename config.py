@@ -14,7 +14,7 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MANA_MAIL_SUBJECT_PREFIX = '[Manasseh_in_2077]'
     MANA_MAIL_SENDER = 'MaNa2077 admin<jbjsnow@outlook.com>'
-    MANA_ADMIN = os.environ.get('FLASKY_ADMIN')
+    MANA_ADMIN = os.environ.get('MANA_ADMIN')
     MANA_POSTS_PER_PAGE = 20
     MANA_COMMENTS_PER_PAGE = 30
     MANA_SLOW_DB_QUERY_TIME = 0.5
