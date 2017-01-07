@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -90,7 +91,7 @@ class User(UserMixin, db.Model):
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
         if self.role is None:
-            if self.email == current_app.config['FLASKY_ADMIN']:
+            if self.email == current_app.config['MANA_ADMIN']:
                 self.role = Role.query.filter_by(permissions=0xff).first()
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
@@ -230,16 +231,24 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+posts_tags = db.Table('posts_tags',
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')))
+
+
 class Post(db.Model):
     __tablename__ = 'posts'
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
-    title = db.Column(db.Text)
-    title_html = db.Column(db.Text)
+    title = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    tags = db.relationship('Tag', secondary=posts_tags,
+                            backref=db.backref('posts', lazy='dynamic'),
+                            lazy='dynamic')
+
 
     @staticmethod
     def generate_fake(count=100):
@@ -301,6 +310,49 @@ class Post(db.Model):
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
 db.event.listen(Post.title, 'set', Post.on_changed_title)
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+    @staticmethod
+    def insert_tags():
+        tags = ['Python','Jinja2','Flask','前端']
+        for t in tags:
+            tag = Tag.query.filter_by(name=t).first()
+            if tag is None:
+                tag = Tag(name=t)
+            db.session.add(tag)
+        db.session.commit()
+
+    def __repr__(self):
+        return '<Tag %r>' % self.name
+
+    @staticmethod
+    def on_changed_name(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
+                        'strong']
+        target.name = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+    def to_json(self):
+        json_tag = {
+            'url': url_for('api.get_tag', id=self.id, _external=True),
+            'name': self.name
+        }
+        return json_tag
+
+    @staticmethod
+    def from_json(json_tag):
+        name = json_tag.get('name')
+        if name is None or name == '':
+            raise ValidationError('tag does not exists')
+        return Tag(name=name)
+
+
+db.event.listen(Tag.name, 'set', Tag.on_changed_name)
 
 
 class Comment(db.Model):

@@ -2,12 +2,18 @@
 
 {% block title %}Confirm your account|2077{% endblock %}
 
+{% block pageheader %}
+<div class="blog-header">
+    <h1 class="blog-title">Hello, {{ current_user.username }}!</h1>
+    <p>________________________________</p>
+    <p class="lead blog-description">人间岁月堂堂去，劝君快上青云路</p>
+</div>
+{% endblock %}
+
 {% block page_content %}
 <div class="page-header">
-    <h1>
-        Hello, {{ current_user.username }}!
-    </h1>
-    <h3>You have not confirmed your account yet.</h3>
+    <h3>你还未确认你的账号~_~</h3>
+    <br>
     <p>
         Before you can access this site you need to confirm your account.
         Check your inbox, you should have received an email with a confirmation link.

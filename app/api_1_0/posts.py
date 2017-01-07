@@ -10,7 +10,7 @@ from .errors import forbidden
 def get_posts():
     page = request.args.get('page', 1, type=int)
     pagination = Post.query.paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
     prev = None
@@ -51,7 +51,7 @@ def edit_post(id):
     if g.current_user != post.author and \
             not g.current_user.can(Permission.ADMINISTER):
         return forbidden('Insufficient permissions')
-    post.title = request.json.get('title', post.title) 
+    post.title = request.json.get('title', post.title)
     post.body = request.json.get('body', post.body)
     db.session.add(post)
     return jsonify(post.to_json())

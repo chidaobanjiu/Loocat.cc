@@ -3,11 +3,16 @@
 
 {% block title %}Login|2077{% endblock %}
 
-{% block page_content %}
-<div class="page-header">
-    <h1>Login</h1>
+{% block pageheader %}
+<div class="blog-header">
+    <h1 class="blog-title">登录</h1>
+    <p>________________________________</p>
+    <p class="lead blog-description">人间岁月堂堂去，劝君快上青云路</p>
 </div>
-<div class="col-md-4">
+{% endblock %}
+
+{% block page_content %}
+<div class="page-content">
     {{ wtf.quick_form(form) }}
     <br>
     <p>Forgot your password? <a href="{{ url_for('auth.password_reset_request') }}">Click here to reset it</a>.</p>

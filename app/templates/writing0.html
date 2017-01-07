@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Writing|2077{% endblock %}
+
+{% block navbar %}
+<li><a href="{{ url_for('main.index') }}">主页</a></li>
+<li><a href="{{ url_for('main.blogs') }}">博客</a></li>
+{% endblock %}
+
+{% block navbarwriter%}
+<li class="dropdown active">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        CDEditor(推荐)<span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu" role="menu">
+        <li class="dropdown-header">编辑方式</li>
+        <li><a href="{{ url_for('main.write') }}">MarkDown</a></li>
+        <li class="active"><a href="{{ url_for('main.write0') }}">CDEditor(推荐)</a></li>
+
+    </ul>
+</li>
+{% endblock %}
+
+{% block pageheader %}
+<div class="blog-title">
+    <h1></h1>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="writer" >
+    {% if current_user.can(Permission.WRITE_ARTICLES) %}
+    <form>
+    {{ form.title(class="ckeditor") }}
+    {{ form.body(class="ckeditor") }}
+    {{ form.submit() }}
+    {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+<script src="{{ url_for('static', filename='ckeditor/ckeditor.js') }}"></script>
+{% endblock %}

@@ -3,8 +3,8 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
-    CommentForm
+from .forms import EditProfileForm, EditProfileAdminForm, PostFormM,\
+    PostFormC, CommentForm
 from .. import db
 from ..models import Permission, Role, User, Post, Comment
 from ..decorators import admin_required, permission_required
@@ -13,7 +13,7 @@ from ..decorators import admin_required, permission_required
 @main.after_app_request
 def after_request(response):
     for query in get_debug_queries():
-        if query.duration >= current_app.config['FLASKY_SLOW_DB_QUERY_TIME']:
+        if query.duration >= current_app.config['MANA_SLOW_DB_QUERY_TIME']:
             current_app.logger.warning(
                 'Slow query: %s\nParameters: %s\nDuration: %fs\nContext: %s\n'
                 % (query.statement, query.parameters, query.duration,
@@ -37,7 +37,7 @@ def blogs():
     page = request.args.get('page', 1, type=int)
     query = Post.query
     pagination = query.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
     return render_template('blogs.html', posts=posts,
@@ -45,14 +45,20 @@ def blogs():
 
 
 @main.route('/', methods=['GET'])
-def welcome():
-    return render_template('base.html', user=current_user)
-
-
-
-@main.route('/home', methods=['GET', 'POST'])
 def index():
-    form = PostForm()
+    page = request.args.get('page', 1, type=int)
+    query = Post.query
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
+        error_out=False)
+    posts = pagination.items
+    return render_template('base.html', posts=posts,
+                           pagination=pagination, user=current_user)
+
+
+@main.route('/writing_MarkDown', methods=['GET', 'POST'])
+def write():
+    form = PostFormM()
     if current_user.can(Permission.WRITE_ARTICLES) and \
             form.validate_on_submit():
         post = Post(title=form.title.data,
@@ -64,12 +70,25 @@ def index():
                            user=current_user)
 
 
+@main.route('/writing_CKEditor', methods=['GET', 'POST'])
+def write0():
+    form = PostFormC()
+    if current_user.can(Permission.WRITE_ARTICLES):
+        post = Post(title=form.title.data,
+                    body=form.body.data,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        return redirect(url_for('.index'))
+    return render_template('writing0.html', form=form,
+                           user=current_user)
+
+
 @main.route('/user/<username>')
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     page = request.args.get('page', 1, type=int)
     pagination = user.posts.order_by(Post.timestamp.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
     return render_template('user.html', user=user, posts=posts,
@@ -134,9 +153,9 @@ def post(id):
     page = request.args.get('page', 1, type=int)
     if page == -1:
         page = (post.comments.count() - 1) // \
-            current_app.config['FLASKY_COMMENTS_PER_PAGE'] + 1
+            current_app.config['MANA_COMMENTS_PER_PAGE'] + 1
     pagination = post.comments.order_by(Comment.timestamp.asc()).paginate(
-        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        page, per_page=current_app.config['MANA_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
     return render_template('post.html', posts=[post], form=form,
@@ -150,15 +169,16 @@ def edit(id):
     if current_user != post.author and \
             not current_user.can(Permission.ADMINISTER):
         abort(403)
-    form = PostForm()
+    form = PostFormM()
     if form.validate_on_submit():
         post.title = form.title.data
         post.body = form.body.data
         db.session.add(post)
         flash('The post has been updated.')
         return redirect(url_for('.post', id=post.id))
+    form.title.data = post.title
     form.body.data = post.body
-    return render_template('edit_post.html', form=form)
+    return render_template('edit_post.html', post=[post], form=form)
 
 
 @main.route('/all')
@@ -176,7 +196,7 @@ def show_all():
 def moderate():
     page = request.args.get('page', 1, type=int)
     pagination = Comment.query.order_by(Comment.timestamp.desc()).paginate(
-        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        page, per_page=current_app.config['MANA_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
     return render_template('moderate.html', comments=comments,

@@ -1,3 +1,5 @@
+{% import "_macros.html" as macros %}
+
 {% block doc -%}
 <!DOCTYPE html>
 <!-- changed from url=(0036)http://v3.bootcss.com/examples/blog/ -->
@@ -39,15 +41,13 @@
                     <span class="icon-bar-blue"></span>
                     <span class="icon-bar-blue"></span>
                   </button>
-                  <a class="blog-nav-item" href="{{ url_for('main.blogs') }}">Smile</a>
+                  <a class="blog-nav-item" href="{{ url_for('main.index') }}">Smile</a>
                 </div>
                 <div id="blog-nav" class="navbar-collapse collapse">
                   <nav class="blog-nav">
-                    <a class="blog-nav-item active" href="{{ url_for('main.blogs') }}">Back to top</a>
-                    <a class="blog-nav-item" href="{{ url_for('main.index') }}">Writing</a>
-                    <!--<a class="blog-nav-item" href="http://v3.bootcss.com/examples/blog/#">Press</a>
-                    <a class="blog-nav-item" href="http://v3.bootcss.com/examples/blog/#">GitHub</a>-->
-                    <a class="blog-nav-item" href="">About</a>
+                    <a class="blog-nav-item active" href="{{ url_for('main.index') }}">返回顶部</a>
+                    <a class="blog-nav-item" href="{{ url_for('main.blogs') }}">博客</a>
+                    <a class="blog-nav-item" href="{{ url_for('main.write') }}">写作</a>
                   </nav>
                 </div>
             </div>
@@ -63,14 +63,27 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.blogs') }}">Manasseh in 2077</a>
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">Smile</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              {% block navbar %}
-              <li class="active"><a href="{{ url_for('main.blogs') }}">Home</a></li>
-              <li><a href="{{ url_for('main.index') }}">Writing</a></li>
+              {% block navbar -%}
+              <li class="active"><a href="{{ url_for('main.index') }}">主页</a></li>
+              <li><a href="{{ url_for('main.blogs') }}">博客</a></li>
               {%- endblock navbar %}
+              {% block navbarwriter -%}
+              <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      写作<span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                      <li class="dropdown-header">编辑方式</li>
+                      <li><a href="{{ url_for('main.write') }}">MarkDown</a></li>
+                      <li><a href="{{ url_for('main.write0') }}">CDEditor(开发中)</a></li>
+
+                  </ul>
+              </li>
+              {%- endblock navbarwriter %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
               {% if current_user.is_authenticated %}
@@ -80,6 +93,9 @@
                   </a>
                   <ul class="dropdown-menu" role="menu">
                       <li><a href="{{ url_for('auth.logout') }}">登出</a></li>
+                      {% if current_user.can(Permission.MODERATE_COMMENTS) %}
+                      <li><a href="{{ url_for('main.moderate') }}">管理评论</a></li>
+                      {% endif %}
                       <li class="divider"></li>
                       <li class="dropdown-header">账户信息</li>
                       <li><a href="{{ url_for('auth.change_password') }}">更改密码</a></li>
@@ -96,6 +112,7 @@
       </nav>
 
     <!--messages in container-->
+    {% block pagecotent -%}
     <div id="content" class="container">
         {% for message in get_flashed_messages() %}
         <div class="alert alert-warning">
@@ -106,7 +123,7 @@
         <!--blog header-->
         {% block pageheader -%}
         <div class="blog-header">
-            <h1 class="blog-title">博客</h1>
+            <h4 class="blog-title">博客</h4>
             <p>________________________________</p>
             <p class="lead blog-description">人间岁月堂堂去，劝君快上青云路</p>
         </div>
@@ -135,27 +152,31 @@
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+            <p class="about"> <em>Es ist ein Irrtum zu glauben</em> , dass die Praxis von meiner Kunst zu mir
+                leicht geworden ist. Ich versichere Ihnen , lieber Freund , niemand hat so viel Sorgfalt auf
+                das Studium der Komposition als ich. </p>
           </div>
           <div class="sidebar-module">
-            <h4>Archives</h4>
+            <div class="bottom-line"><h4>分割      </h4>
+            </div>
             <ol class="list-unstyled">
-              <li><a href="http://v3.bootcss.com/examples/blog/#">March 2014</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">February 2014</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">January 2014</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">December 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">November 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">October 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">September 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">August 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">July 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">June 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">May 2013</a></li>
-              <li><a href="http://v3.bootcss.com/examples/blog/#">April 2013</a></li>
+              <li><a href="">March 2014</a></li>
+              <li><a href="">February 2014</a></li>
+              <li><a href="">January 2014</a></li>
+              <li><a href="">December 2013</a></li>
+              <li><a href="">November 2013</a></li>
+              <li><a href="">October 2013</a></li>
+              <li><a href="">September 2013</a></li>
+              <li><a href="">August 2013</a></li>
+              <li><a href="">July 2013</a></li>
+              <li><a href="">June 2013</a></li>
+              <li><a href="">May 2013</a></li>
+              <li><a href="">April 2013</a></li>
             </ol>
           </div>
           <div class="sidebar-module">
-            <h4>Elsewhere</h4>
+            <div class="bottom-line"><h4>别处      </h4>
+            </div>
             <ol class="list-unstyled">
               <li><a href="http://github.com/chidaobanjiu" target="_blank">GitHub</a></li>
               <li><a href="http://twitter.com/" target="_blank">Twitter</a></li>
@@ -165,9 +186,10 @@
         </div><!-- /.blog-sidebar -->
 
       </div><!-- /.row -->
-
+      {%- endblock content %}
     </div><!-- /.container -->
-    {%- endblock content %}
+    {%- endblock pagecotent %}
+
 
     <div class="blog-footer">
       <p>Powered by <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://flask.pocoo.org/">Flask</a>.</p>
@@ -204,6 +226,8 @@
         </object>
     </div>
     {%- endblock body %}
+    {% block simplemde -%}
+    {%- endblock simplemde %}
     </body>
 {%- endblock html %}
 </html>
