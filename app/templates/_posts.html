@@ -1,6 +1,7 @@
 <ul class="posts">
     {% for post in posts %}
     <li class="blog-post">
+        <div class="blog-post">
         <div class="blog-post-title">
             <a class="blog-post-title" href="{{ url_for('.post', id=post.id) }}">
             {% if post.title_html %}
@@ -39,6 +40,7 @@
                     <span class="label label-primary">{{ post.comments.count() }} Comments</span>
                 </a>
             </div>
+        </div>
         </div>
     </li>
     {% endfor %}

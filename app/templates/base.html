@@ -33,7 +33,7 @@
     {% block body -%}
 
         <!-- Fixed blue navbar -->
-        <div class="navbar-default blog-masthead" role="navigation">
+        <!--<div class="navbar-default blog-masthead" role="navigation">
             <div class="container">
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle-blue collapsed" data-toggle="collapse" data-target="#blog-nav" aria-expanded="false" aria-controls="blog-masthead">
@@ -51,7 +51,7 @@
                   </nav>
                 </div>
             </div>
-       </div>
+       </div> -->
 
       <!-- Absolute silver navbar -->
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +69,7 @@
             <ul class="nav navbar-nav">
               {% block navbar -%}
               <li class="active"><a href="{{ url_for('main.index') }}">主页</a></li>
-              <li><a href="{{ url_for('main.blogs') }}">博客</a></li>
+              <li><a href="{{ url_for('main.blogs') }}">文章</a></li>
               {%- endblock navbar %}
               {% block navbarwriter -%}
               <li class="dropdown">
@@ -123,9 +123,8 @@
         <!--blog header-->
         {% block pageheader -%}
         <div class="blog-header">
-            <h4 class="blog-title">博客</h4>
-            <p>________________________________</p>
-            <p class="lead blog-description">人间岁月堂堂去，劝君快上青云路</p>
+            <div class="blog-title"><h4 class="blog-title">博客</h4></div>
+            <div class="lead blog-description"><p class="lead blog-description">人间岁月堂堂去，劝君快上青云路</p></div>
         </div>
         {%- endblock pageheader %}
         <!--blog row for blogs-->
@@ -205,8 +204,6 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='docs.min.js.下载') }}"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="..static/ie10-viewport-bug-workaround.js.下载"></script>
     {% block scripts %}
     {{ moment.include_moment() }}
     {%- endblock scripts %}

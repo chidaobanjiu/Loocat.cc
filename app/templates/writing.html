@@ -8,7 +8,7 @@
 
 {% block navbar %}
 <li><a href="{{ url_for('main.index') }}">主页</a></li>
-<li><a href="{{ url_for('main.blogs') }}">博客</a></li>
+<li><a href="{{ url_for('main.blogs') }}">文章</a></li>
 {% endblock %}
 
 {% block navbarwriter %}
@@ -26,9 +26,9 @@
 {% endblock %}
 
 {% block pageheader %}
-<div class="blog-header writer-title">
-    <h1 class="blog-title writer-title">书写</h1>
-    <p>________________________________</p>
+<div class="blog-header">
+    <div class="blog-title"><h1 class="blog-title">书写</h1></div>
+    <div class="lead blog-description write-description"><p class="lead blog-description write-description">________________________________</p></div>
 </div>
 {% endblock %}
 
