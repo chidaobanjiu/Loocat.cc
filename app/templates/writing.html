@@ -18,8 +18,8 @@
     </a>
     <ul class="dropdown-menu" role="menu">
         <li class="dropdown-header">编辑方式</li>
-        <li class="active"><a href="{{ url_for('main.write') }}">MarkDown</a></li>
-        <li><a href="{{ url_for('main.write0') }}">CKEditor</a></li>
+        <li class="active"><a href="{{ url_for('main.write') }}">MarkDown(推薦)</a></li>
+        <li><a href="{{ url_for('main.write0') }}">CKEditor(開發中)</a></li>
 
     </ul>
 </li>
@@ -27,8 +27,8 @@
 
 {% block pageheader %}
 <div class="blog-header">
-    <div class="blog-title"><h1 class="blog-title">书写</h1></div>
-    <div class="lead blog-description write-description"><p class="lead blog-description write-description">________________________________</p></div>
+    <div class="blog-title"><h1 class="blog-title">書寫</h1></div>
+    <div class="lead blog-description write-description"><p class="lead blog-description write-description">「欲將心事付瑤琴 知音少 弦斷有誰聽」</p></div>
 </div>
 {% endblock %}
 
@@ -36,6 +36,8 @@
 <div class="writer" >
     {% if current_user.can(Permission.WRITE_ARTICLES) %}
     {{ wtf.quick_form(form) }}
+    {% else %}
+    <p>抱歉，你没有写作的权限  ~_~</p>
     {% endif %}
 </div>
 {% endblock %}

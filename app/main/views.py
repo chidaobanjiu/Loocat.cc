@@ -6,7 +6,7 @@ from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostFormM,\
     PostFormC, CommentForm
 from .. import db
-from ..models import Permission, Role, User, Post, Comment
+from ..models import Permission, Role, User, Post, Comment, Tag
 from ..decorators import admin_required, permission_required
 
 
@@ -64,6 +64,10 @@ def write():
         post = Post(title=form.title.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
+        for t in form.tags.data:
+            tag = Tag.query.filter_by(id=t)
+            if not post.is_tagged_by(tag):
+                post.tagging(tag)
         db.session.add(post)
         return redirect(url_for('.index'))
     return render_template('writing.html', form=form,
@@ -73,13 +77,18 @@ def write():
 @main.route('/writing_CKEditor', methods=['GET', 'POST'])
 def write0():
     form = PostFormC()
-    if current_user.can(Permission.WRITE_ARTICLES):
+    if current_user.can(Permission.WRITE_ARTICLES) and \
+            form.validate_on_submit():
         post = Post(title=form.title.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
+        for t in form.tags.data:
+            tag = Tag.query.filter_by(id=t)
+            if not post.is_tagged_by(tag):
+                post.tagging(tag)
         db.session.add(post)
         return redirect(url_for('.index'))
-    return render_template('writing0.html', form=form,
+    return render_template('writing.html', form=form,
                            user=current_user)
 
 

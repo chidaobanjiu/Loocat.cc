@@ -69,6 +69,21 @@ nav.navbar {
     box-shadow: 0 2px 5px rgba(0,37,55,.08);
 }
 
+
+/* blogs.html里的blog-header样式 */
+.blogs-header {
+    text-align: center;
+}
+.blogs-header > .blog-title {
+    width: 970px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.blogs-header > .blog-description {
+    width: 970px;
+    margin-left: auto;
+    margin-right: auto;
+}
 /* blogs.html里的博客样式 */
 .blog-container {
     width: auto;
@@ -83,7 +98,7 @@ nav.navbar {
     padding: 0;
 }
 .post-blog > ul > li {
-    padding: 20px 40px 20px 40px;
+    padding: 30px 40px 30px 40px;
     background-color: #fff;
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
@@ -91,25 +106,25 @@ nav.navbar {
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,37,55,.05);
 }
-.post-blog > ul > li > div {
+.post-blog > ul > li > div > div {
     margin-left: auto;
     margin-right: auto;
     width: 78%;
 }
-.post-blog > ul > li > .blog-post-title {
+.post-blog > ul > li > div >.blog-post-title {
     margin-top: 40px;
     margin-bottom: 5px;
 }
-.post-blog > ul > li > .post-thumbnail {
+.post-blog > ul > li > div >.post-thumbnail {
     margin-top: 30px;
     margin-bottom: 40px;
 }
-.post-blog > ul > li > div > .blog-post-body {
+.post-blog > ul > li > div > div > .blog-post-body {
     font-size: 24px;
     width: 85%;
     margin-bottom: 70px;
 }
-.post-blog > ul > li > div > .blog-post-footer {
+.post-blog > ul > li > div > div > .blog-post-footer {
     margin-bottom: 70px;
 }
 
@@ -143,27 +158,27 @@ h1.blog-title, h3.blog-title , h4.blog-title {
     font-size: 60px;
     font-weight: normal;
 }
-div.blog-description {
-}
 p.blog-description {
     background-color: #fff;
-    border-width: 0 1px 1px 1px;
-    border-color: #e7e7e7;
     font-size: 20px;
     color: #999;
     padding-bottom: 5px;
     padding-top: 5px;
     box-shadow: 0 2px 3px rgba(0,37,55,.05);
-    border-left: 6px solid #d54b44;
-    border-right: 6px solid #d54b44;
+    border-width: 45px;
+    border-color: #d54b44;
+    border-style: solid;
+    border-top: 0;
+    border-bottom: 0;
 }
 p.blogs-description {
-    border-left: 6px solid #4e1892;
-    border-right: 6px solid #4e1892;
+    border-color: #2578b5;
 }
 p.write-description {
-    border-left: 6px solid #008e59;
-    border-right: 6px solid #008e59;
+    border-color: #90caaf;#008e59;
+}
+p.login-description {
+    border-color: #3e3c3d;
 }
 
 /*
@@ -190,8 +205,9 @@ ul.posts {
  * Blog posts
  */
 
-.blog-post {
-    margin-bottom: 60px;
+li.blog-post {
+    margin-bottom: 30px;
+    padding-bottom: 40px;
     border-bottom: 1px solid #eee;
 }
 .post-thumbnail{
@@ -290,7 +306,7 @@ div.writer {
     background-color: #fff;
     padding: 30px 20px 50px 20px;
     margin: 0 -15px 30px -15px;
-    height: 680px;
+    height: auto;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,37,55,.05);
 }

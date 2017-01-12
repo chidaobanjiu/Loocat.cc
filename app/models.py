@@ -11,6 +11,13 @@ from app.exceptions import ValidationError
 from . import db, login_manager
 
 
+class TagName:
+    Python = 0
+    Flask = 1
+    BootStrap = 2
+    Blogs = 3
+
+
 class Permission:
     COMMENT = 0x01
     WRITE_ARTICLES = 0x02
@@ -231,9 +238,12 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-posts_tags = db.Table('posts_tags',
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id')),
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id')))
+class Tagging(db.Model):
+    __tablename__ = 'taggings'
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'),
+                          primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'),
+                           primary_key=True)
 
 
 class Post(db.Model):
@@ -241,13 +251,30 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
-    title = db.Column(db.String(255))
+    title = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
-    tags = db.relationship('Tag', secondary=posts_tags,
-                            backref=db.backref('posts', lazy='dynamic'),
-                            lazy='dynamic')
+    tag = db.relationship('Tagging',
+                           foreign_keys=[Tagging.post_id],
+                           backref=db.backref('post', lazy='joined'),
+                           lazy='dynamic',
+                           cascade='all, delete-orphan')
+
+    def is_tagged_by(self, t):
+        return self.tag.filter_by(
+            tag_id=t.id).first() is not None
+
+    def tagging(self, t):
+        if not self.is_tagged_by(tag):
+            t = Tagging(tag=t, post=self)
+            db.session.add(t)
+
+    @staticmethod
+    def __init__(self, **kwargs):
+        super(Post, self).__init__(**kwargs)
+        if self.tag is None:
+            self.tag = self.tagging(Tag.query.filter_by(default=True).first())
 
 
     @staticmethod
@@ -266,6 +293,11 @@ class Post(db.Model):
             db.session.add(p)
             db.session.commit()
 
+
+    def __repr__(self):
+        return '<Post %r>' % self.title
+
+
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
@@ -275,13 +307,6 @@ class Post(db.Model):
             markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
 
-    def on_changed_title(target, value, oldvalue, initiator):
-        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
-                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p']
-        target.title_html = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
 
     def to_json(self):
         json_post = {
@@ -291,6 +316,8 @@ class Post(db.Model):
             'title': self.title,
             'title_html': self.title_html,
             'timestamp': self.timestamp,
+            'taglist': url_for('api.get_post_taglists', id=self.id,
+                                _external=True),
             'author': url_for('api.get_user', id=self.author_id,
                               _external=True),
             'comments': url_for('api.get_post_comments', id=self.id,
@@ -309,38 +336,65 @@ class Post(db.Model):
 
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
-db.event.listen(Post.title, 'set', Post.on_changed_title)
 
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    default = db.Column(db.Boolean, default=False, index=True)
+    posts = db.relationship('Tagging',
+                             foreign_keys=[Tagging.tag_id],
+                             backref=db.backref('tag', lazy='joined'),
+                             lazy='dynamic',
+                             cascade='all, delete-orphan')
+
+    def add_tag(self, t, post):
+        tag = Tag.query.filter_by(name=t).first()
+        if tag is None:
+            tag = Tag(name=t)
+        db.session.add(tag)
+        db.session.commit()
+        tag.tagging(post)
+
+    def is_tagging(self, post):
+        return self.tagging.filter_by(
+            tagging_id=post.id).first() is not None
+
+    def tagging(self, post):
+        if not self.is_tagging(post):
+            t = Tagging(tagging=self, tagged=post)
+            db.session.add(t)
+
+    def untagging(self, post):
+        t = self.tagging.filter_by(tagged_id=post.id).first()
+        if t:
+            db.delete(t)
+
 
     @staticmethod
     def insert_tags():
-        tags = ['Python','Jinja2','Flask','前端']
+        tags = {
+            'Python': (TagName.Python, False),
+            'Flask': (TagName.Flask, False),
+            'BootStrap': (TagName.BootStrap, False),
+            'Blogs': (TagName.Blogs, True)
+        }
         for t in tags:
             tag = Tag.query.filter_by(name=t).first()
             if tag is None:
-                tag = Tag(name=t)
+                tag = Tag(id=tags[t][0], name=t)
+            tag.default = tags[t][1]
             db.session.add(tag)
         db.session.commit()
+
 
     def __repr__(self):
         return '<Tag %r>' % self.name
 
-    @staticmethod
-    def on_changed_name(target, value, oldvalue, initiator):
-        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
-                        'strong']
-        target.name = bleach.linkify(bleach.clean(
-            markdown(value, output_format='html'),
-            tags=allowed_tags, strip=True))
-
     def to_json(self):
         json_tag = {
             'url': url_for('api.get_tag', id=self.id, _external=True),
-            'name': self.name
+            'tagname': self.name
         }
         return json_tag
 
@@ -351,8 +405,6 @@ class Tag(db.Model):
             raise ValidationError('tag does not exists')
         return Tag(name=name)
 
-
-db.event.listen(Tag.name, 'set', Tag.on_changed_name)
 
 
 class Comment(db.Model):

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
-    SubmitField
+    SubmitField, SelectMultipleField, SelectField, RadioField
+from wtforms.widgets import ListWidget
 from wtforms.validators import Required, Length, Email, Regexp
 from wtforms import ValidationError
 from flask_pagedown.fields import PageDownField
-from ..models import Role, User
-
+from ..models import Role, User, Tag
 
 class NameForm(Form):
     name = StringField('What is your name?', validators=[Required()])
@@ -54,12 +54,36 @@ class EditProfileAdminForm(Form):
 class PostFormM(Form):
     title = StringField("Title", validators=[Required()])
     body = TextAreaField("Content")
+    tags = SelectMultipleField("Tags", coerce=int)
+    new_tag = StringField("New_Tag", validators=[Required()])
     submit = SubmitField('Submit')
+
+    def __init__(self, *args, **kwargs):
+        super(PostFormM, self).__init__(*args,**kwargs)
+        self.tags.choices = [(tag.id, tag.name)
+                                for tag in Tag.query.order_by(Tag.name).all()]
+
+    def validate_tag(self, field, post):
+        if field.data != Tag.query.filter_by(name=field.data).first():
+            Tag.add_tag(field.data, post)
+
 
 class PostFormC(Form):
     title = StringField("Title")
     body = TextAreaField("Content")
+    taglist = SelectMultipleField("Tags", validators=[Required()])
     submit = SubmitField('Submit')
+
+    def __init__(self, user, *args, **kwargs):
+        super(PostFormM, self).__init__(*args,**kwargs)
+        self.taglist.choices = [(tag.id, tag.name)
+                                for tag in Tag.query.order_by(Tag.name).all()]
+        self.post = post
+
+    def validate_tag(self, field, post):
+        if field.data != Tag.query.filter_by(name=field.data).first():
+            Tag.add_tag(field.data, post)
+
 
 class CommentForm(Form):
     body = StringField('Enter your comment', validators=[Required()])
