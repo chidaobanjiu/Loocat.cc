@@ -257,7 +257,7 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
     tagged = db.relationship('Tagging',
                            foreign_keys=[Tagging.tagging_id],
-                           backref=db.backref('tagging', lazy='joined'),
+                           backref=db.backref('tagged', lazy='joined'),
                            lazy='dynamic',
                            cascade='all, delete-orphan')
 
@@ -347,7 +347,7 @@ class Tag(db.Model):
     default = db.Column(db.Boolean, default=False, index=True)
     tagging = db.relationship('Tagging',
                              foreign_keys=[Tagging.tagged_id],
-                             backref=db.backref('tagged', lazy='joined'),
+                             backref=db.backref('tagging', lazy='joined'),
                              lazy='dynamic',
                              cascade='all, delete-orphan')
 

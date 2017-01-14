@@ -80,18 +80,18 @@ def write():
 @main.route('/writing_CKEditor', methods=['GET', 'POST'])
 def write0():
     form = PostFormC()
-    if current_user.can(Permission.WRITE_ARTICLES) and \
-            form.validate_on_submit():
+    taglist = Tag.query.all()
+    if current_user.can(Permission.WRITE_ARTICLES):
         post = Post(title=form.title.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
-        for t in form.tags.data:
+        for t in form.tagged.data:
             tag = Tag.query.filter_by(id=t)
             if not post.is_tagged_by(tag):
                 post.tagging(tag)
         db.session.add(post)
         return redirect(url_for('.index'))
-    return render_template('writing.html', form=form,
+    return render_template('writing0.html', form=form, taglist=taglist,
                            user=current_user)
 
 

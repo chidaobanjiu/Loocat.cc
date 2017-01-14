@@ -101,7 +101,7 @@
                   <ul class="dropdown-menu" role="menu">
                       <li><a href="{{ url_for('auth.logout') }}">登出</a></li>
                       {% if current_user.can(Permission.MODERATE_COMMENTS) %}
-                      <li><a href="{{ url_for('main.moderate') }}">管理評論</a></li>
+                      <li><a href="{{ url_for('admin.index') }}">后台管理</a></li>
                       {% endif %}
                       <li class="divider"></li>
                       <li class="dropdown-header">用戶信息</li>
@@ -166,10 +166,9 @@
             <div class="bottom-line"><h4>標籤      </h4>
             </div>
             <ol class="list-unstyled">
-              <li><a href="">Python</a></li>
-              <li><a href="">Flask</a></li>
-              <li><a href="">BootStrap</a></li>
-              <li><a href="">Blogs</a></li>
+                {% for t in tags %}
+                <li><a href=" url_for('')">{{ t.name }}</a></li>
+                {% endfor %}
             </ol>
           </div>
           <div class="sidebar-module">

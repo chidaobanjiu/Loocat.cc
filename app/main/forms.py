@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import Form
 from wtforms import StringField, TextAreaField, BooleanField, SelectField,\
-    SubmitField, SelectMultipleField, SelectField, RadioField
+    SubmitField, widgets, SelectMultipleField
 from wtforms.widgets import ListWidget
 from wtforms.validators import Required, Length, Email, Regexp
 from wtforms import ValidationError
@@ -51,6 +51,25 @@ class EditProfileAdminForm(Form):
             raise ValidationError('Username already in use.')
 
 
+class CKTextAreaWidget(widgets.TextArea):
+    """CKeditor form for Flask-Admin."""
+
+    def __call__(self, field, **kwargs):
+        """Define callable type(class)."""
+
+        # Add a new class property ckeditor: '<input class=ckeditor...>'
+        kwargs.setdefault('class_', 'ckeditor')
+        return super(CKTextAreaWidget, self).__call__(field, **kwargs)
+
+class CKTextAreaField(TextAreaField):
+    """Create a new Field type"""
+
+    # Add a new widget 'CKTextAreaField' inherit from TextAreaField
+    widget = CKTextAreaWidget()
+
+
+
+
 class PostFormM(Form):
     title = StringField("Title", validators=[Required()])
     body = TextAreaField("Content")
@@ -71,14 +90,13 @@ class PostFormM(Form):
 class PostFormC(Form):
     title = StringField("Title")
     body = TextAreaField("Content")
-    taglist = SelectMultipleField("Tags", validators=[Required()])
+    tags = SelectMultipleField("Tags", validators=[Required()])
     submit = SubmitField('Submit')
 
-    def __init__(self, user, *args, **kwargs):
-        super(PostFormM, self).__init__(*args,**kwargs)
-        self.taglist.choices = [(tag.id, tag.name)
+    def __init__(self, *args, **kwargs):
+        super(PostFormC, self).__init__(*args,**kwargs)
+        self.tags.choices = [(tag.id, tag.name)
                                 for tag in Tag.query.order_by(Tag.name).all()]
-        self.post = post
 
     def validate_tag(self, field, post):
         if field.data != Tag.query.filter_by(name=field.data).first():
