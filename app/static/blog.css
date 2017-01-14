@@ -12,10 +12,16 @@ a {
     font-weight: normal;
     color: #2578b5;
 }
-a:hover {
+a:link,
+a:visited,
+a:hover,
+a:active {
     text-decoration: none;
+}
+a:hover {
     color: #d54b44;
 }
+
 
 h1, .h1,
 h2, .h2,
@@ -153,6 +159,11 @@ div.blog-title {
     margin-right: auto;
     background-color: #fefefe;
     box-shadow: 0 2px 3px rgba(0,37,55,.05);
+    border-width: 4px;
+    border-color: #d54b44;
+    border-style: solid;
+    border-top: 0;
+    border-bottom: 0;
 }
 h1.blog-title, h3.blog-title , h4.blog-title {
     font-size: 60px;
@@ -165,7 +176,7 @@ p.blog-description {
     padding-bottom: 5px;
     padding-top: 5px;
     box-shadow: 0 2px 3px rgba(0,37,55,.05);
-    border-width: 45px;
+    border-width: 4px;
     border-color: #d54b44;
     border-style: solid;
     border-top: 0;
@@ -213,6 +224,11 @@ li.blog-post {
 .post-thumbnail{
     margin: 0px auto 20px auto;
 }
+
+.tags {
+    display: inline-block;
+    margin-left: 10px;
+}
 .blog-post-title {
     font-size: 40px;
 }
@@ -225,6 +241,7 @@ li.blog-post {
 .blog-post-meta {
     color: #999;
     font-size: 20px;
+    display: inline-block;
 }
 /* blog-body */
 .blog-post-body {
@@ -296,7 +313,43 @@ li.blog-post {
 ol.list-unstyled {
     margin-top: 9px;
 }
+ol.other {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+ol.list-unstyled > li {
+    margin-right: 10px;
+    margin-top: 4px;
+}
+ol.other > li {
+    display: inline-block;
+    margin-right: 10px;
+}
 
+/* iconfont color hover*/
+.iconfont {
+    color: #888;
+    font-size: 20px;
+}
+ol.other > li > a:hover {
+    color: #213f4d;
+}
+.iconfont:hover {
+    color: #444;
+}
+.icon-twitter:hover {
+    color: #1da1f2;
+}
+.icon-github1:hover {
+    color: #213f4d;
+}
+.icon-facebook:hover {
+    color: #3b5998;
+}
+.icon-zhihu:hover {
+    color: #0664c3;
+}
 /* blogs-page */
 
 

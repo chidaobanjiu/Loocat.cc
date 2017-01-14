@@ -56,4 +56,9 @@
 <script>
     CKEDITOR.replace('editor')
 </script>
+<script type="text/javascript">
+    $("#e20").select2({
+        tags:["red", "green", "blue"],
+        tokenSeparators: [",", " "]});
+</script>
 {% endblock %}

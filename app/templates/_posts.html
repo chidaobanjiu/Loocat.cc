@@ -13,6 +13,18 @@
         </div>
         <div class="post-thumbnail">
             <p class="blog-post-meta">Posted on <a href="{{ url_for('.user', username=post.author.username) }}">{{ moment(post.timestamp).format('LL') }}</a>
+                <div class="tags dropdown">
+                    <a class="tags" id=dLabel data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="iconfont icon-discount"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">Tags</li>
+                        {% for tag in tags %}
+                            {% if post.is_tagged_by(tag) %}
+                            <li><a href="{{ url_for('main.write') }}">{{tag.name}}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
             </p>
         </div>
         <div class="blog-post-content">
@@ -24,8 +36,6 @@
                 {% endif %}
             </div>
             <div class="blog-post-footer">
-                <tags><a><img src="{{ url_for('static', filename='tags.png') }}"></a>
-                </tags>
                 {% if current_user == post.author %}
                 <a href="{{ url_for('.edit', id=post.id) }}">
                     <span class="label label-primary">Edit</span>

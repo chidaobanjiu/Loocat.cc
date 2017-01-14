@@ -40,7 +40,8 @@ def blogs():
         page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
-    return render_template('blogs.html', posts=posts,
+    tags = Tag.query.all()
+    return render_template('blogs.html', posts=posts, tags=tags,
                            pagination=pagination, user=current_user)
 
 
@@ -52,25 +53,27 @@ def index():
         page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
-    return render_template('base.html', posts=posts,
+    tags = Tag.query.all()
+    return render_template('base.html', posts=posts, tags=tags,
                            pagination=pagination, user=current_user)
 
 
 @main.route('/writing_MarkDown', methods=['GET', 'POST'])
 def write():
     form = PostFormM()
+    taglist = Tag.query.all()
     if current_user.can(Permission.WRITE_ARTICLES) and \
             form.validate_on_submit():
         post = Post(title=form.title.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
-        for t in form.tags.data:
+        for t in form.tagged.data:
             tag = Tag.query.filter_by(id=t)
             if not post.is_tagged_by(tag):
                 post.tagging(tag)
         db.session.add(post)
         return redirect(url_for('.index'))
-    return render_template('writing.html', form=form,
+    return render_template('writing.html', form=form, taglist=taglist,
                            user=current_user)
 
 

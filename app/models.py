@@ -240,9 +240,9 @@ def load_user(user_id):
 
 class Tagging(db.Model):
     __tablename__ = 'taggings'
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'),
+    tagged_id = db.Column(db.Integer, db.ForeignKey('tags.id'),
                           primary_key=True)
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'),
+    tagging_id = db.Column(db.Integer, db.ForeignKey('posts.id'),
                            primary_key=True)
 
 
@@ -255,26 +255,29 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
-    tag = db.relationship('Tagging',
-                           foreign_keys=[Tagging.post_id],
-                           backref=db.backref('post', lazy='joined'),
+    tagged = db.relationship('Tagging',
+                           foreign_keys=[Tagging.tagging_id],
+                           backref=db.backref('tagging', lazy='joined'),
                            lazy='dynamic',
                            cascade='all, delete-orphan')
 
     def is_tagged_by(self, t):
-        return self.tag.filter_by(
-            tag_id=t.id).first() is not None
+        return self.tagged.filter_by(tagged_id=t.id).first() is not None
 
     def tagging(self, t):
-        if not self.is_tagged_by(tag):
-            t = Tagging(tag=t, post=self)
+        if not self.is_tagged_by(t):
+            t = Tagging(tagged=t, tagging=self)
             db.session.add(t)
+
+    def untagging(self, t):
+        f = self.tagged.filter_by(tagged_id=t).first()
+        if f:
+            db.session.delete()
 
     @staticmethod
     def __init__(self, **kwargs):
         super(Post, self).__init__(**kwargs)
-        if self.tag is None:
-            self.tag = self.tagging(Tag.query.filter_by(default=True).first())
+        self.tagged.append(Tagging(tagged=Tag.query.filter_by(default=True).first()))
 
 
     @staticmethod
@@ -342,9 +345,9 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     default = db.Column(db.Boolean, default=False, index=True)
-    posts = db.relationship('Tagging',
-                             foreign_keys=[Tagging.tag_id],
-                             backref=db.backref('tag', lazy='joined'),
+    tagging = db.relationship('Tagging',
+                             foreign_keys=[Tagging.tagged_id],
+                             backref=db.backref('tagged', lazy='joined'),
                              lazy='dynamic',
                              cascade='all, delete-orphan')
 
@@ -355,20 +358,6 @@ class Tag(db.Model):
         db.session.add(tag)
         db.session.commit()
         tag.tagging(post)
-
-    def is_tagging(self, post):
-        return self.tagging.filter_by(
-            tagging_id=post.id).first() is not None
-
-    def tagging(self, post):
-        if not self.is_tagging(post):
-            t = Tagging(tagging=self, tagged=post)
-            db.session.add(t)
-
-    def untagging(self, post):
-        t = self.tagging.filter_by(tagged_id=post.id).first()
-        if t:
-            db.delete(t)
 
 
     @staticmethod

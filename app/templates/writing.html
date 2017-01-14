@@ -36,6 +36,7 @@
 <div class="writer" >
     {% if current_user.can(Permission.WRITE_ARTICLES) %}
     {{ wtf.quick_form(form) }}
+    <select id="#e20"></select>
     {% else %}
     <p>抱歉，你没有写作的权限  ~_~</p>
     {% endif %}
@@ -46,6 +47,14 @@
 {{ super() }}
 {{ simplemde.js }}
 {{ pagedown.include_pagedown()}}
+<script type="text/javascript">
+  $('select').select2();
+  $("#e20").select2({
+    placeholder:"Select tags"
+    tags:taglist,
+    tokenSeparators: [",", " "]
+    });
+</script>
 {% endblock %}
 
 {% block simplemde %}

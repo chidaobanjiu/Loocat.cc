@@ -22,6 +22,13 @@
     <!-- Bootstrap core CSS -->
         <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
+    <!-- ali iconfont -->
+        <link rel="stylesheet" href="http:////at.alicdn.com/t/font_c0xdzly7rhaxajor.css">
+
+    <!-- Select2 core js and css -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+
     <!-- Custom styles for this template -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='blog.css') }}">
         {%- block styles %}
@@ -168,10 +175,11 @@
           <div class="sidebar-module">
             <div class="bottom-line"><h4>別處      </h4>
             </div>
-            <ol class="list-unstyled">
-              <li><a href="http://github.com/chidaobanjiu" target="_blank">GitHub</a></li>
-              <li><a href="http://twitter.com/" target="_blank">Twitter</a></li>
-              <li><a href="http://facebook.com/" target="_blank">Facebook</a></li>
+            <ol class="list-unstyled other">
+              <li><a href="http://github.com/chidaobanjiu" target="_blank"><i class="iconfont icon-github1"></i>  GitHub</a></li>
+              <li><a href="http://twitter.com/" target="_blank"><i class="iconfont icon-twitter"></i>  Twitter</a></li>
+              <li><a href="http://facebook.com/" target="_blank"><i class="iconfont icon-facebook"></i>  Facebook</a></li>
+              <li><a href="https://www.zhihu.com/people/jiang-bing-jie/" target="_blank"><i class="iconfont icon-zhihu"></i>  知乎</a></li>
             </ol>
           </div>
         </div><!-- /.blog-sidebar -->
