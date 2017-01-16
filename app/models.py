@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 from datetime import datetime
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -238,12 +238,34 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-class Tagging(db.Model):
-    __tablename__ = 'taggings'
-    tagged_id = db.Column(db.Integer, db.ForeignKey('tags.id'),
-                          primary_key=True)
-    tagging_id = db.Column(db.Integer, db.ForeignKey('posts.id'),
-                           primary_key=True)
+"""文章-標籤-分類"""
+post_tag_ref = db.Table('post_tag_ref',
+                        db.Column('post_id', db.Integer,
+                                  db.ForeignKey('posts.id')),
+                        db.Column('tag_id', db.Integer,
+                                  db.ForeignKey('tags.id'))
+                        )
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), unique=True)
+    posts = db.relationship('Post', backref='category', lazy='dynamic')
+
+    @staticmethod
+    def insert_cats():
+        cats = {
+            'Python': False,
+            'Flask': False,
+            'BootStrap': False,
+            'Blogs': True
+        }
+        for c in cats:
+            cat = Category.query.filter_by(name=c).first()
+            if cat is None:
+                cat = Category(name=c)
+            db.session.add(cat)
+        db.session.commit()
 
 
 class Post(db.Model):
@@ -254,19 +276,18 @@ class Post(db.Model):
     title = db.Column(db.String)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
-    tagged = db.relationship('Tagging',
-                           foreign_keys=[Tagging.tagging_id],
-                           backref=db.backref('tagged', lazy='joined'),
-                           lazy='dynamic',
-                           cascade='all, delete-orphan')
+    tags = db.relationship('Tag',
+                           secondary='post_tag_ref',
+                           backref='posts')
 
     def is_tagged_by(self, t):
-        return self.tagged.filter_by(tagged_id=t.id).first() is not None
-
+        return t in self.tags
+    """
     def tagging(self, t):
         if not self.is_tagged_by(t):
-            t = Tagging(tagged=t, tagging=self)
+            t = Tagging(tag=t, post=self)
             db.session.add(t)
 
     def untagging(self, t):
@@ -274,10 +295,12 @@ class Post(db.Model):
         if f:
             db.session.delete()
 
+
     @staticmethod
     def __init__(self, **kwargs):
         super(Post, self).__init__(**kwargs)
-        self.tagged.append(Tagging(tagged=Tag.query.filter_by(default=True).first()))
+        self.tags.append(Tagging(tagged=Tag.query.filter_by(default=True).first()))
+    """
 
 
     @staticmethod
@@ -319,7 +342,7 @@ class Post(db.Model):
             'title': self.title,
             'title_html': self.title_html,
             'timestamp': self.timestamp,
-            'taglist': url_for('api.get_post_taglists', id=self.id,
+            'tags': url_for('api.get_post_tags', id=self.id,
                                 _external=True),
             'author': url_for('api.get_user', id=self.author_id,
                               _external=True),
@@ -334,7 +357,7 @@ class Post(db.Model):
         title = json_post.get('title')
         body = json_post.get('body')
         if body is None or body == '' or title is None or title == '':
-            raise ValidationError('post does not have a body or title')
+            raise ValidationError('此博文沒有標題或內容。')
         return Post(body=body, title=title)
 
 
@@ -343,13 +366,8 @@ db.event.listen(Post.body, 'set', Post.on_changed_body)
 class Tag(db.Model):
     __tablename__ = 'tags'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
+    name = db.Column(db.String(128), unique=True)
     default = db.Column(db.Boolean, default=False, index=True)
-    tagging = db.relationship('Tagging',
-                             foreign_keys=[Tagging.tagged_id],
-                             backref=db.backref('tagging', lazy='joined'),
-                             lazy='dynamic',
-                             cascade='all, delete-orphan')
 
     def add_tag(self, t, post):
         tag = Tag.query.filter_by(name=t).first()
@@ -357,22 +375,21 @@ class Tag(db.Model):
             tag = Tag(name=t)
         db.session.add(tag)
         db.session.commit()
-        tag.tagging(post)
 
 
     @staticmethod
     def insert_tags():
         tags = {
-            'Python': (TagName.Python, False),
-            'Flask': (TagName.Flask, False),
-            'BootStrap': (TagName.BootStrap, False),
-            'Blogs': (TagName.Blogs, True)
+            'Python': False,
+            'Flask': False,
+            'BootStrap': False,
+            'Blogs': True
         }
         for t in tags:
             tag = Tag.query.filter_by(name=t).first()
             if tag is None:
-                tag = Tag(id=tags[t][0], name=t)
-            tag.default = tags[t][1]
+                tag = Tag(name=t)
+            tag.default = tags[t]
             db.session.add(tag)
         db.session.commit()
 
@@ -391,7 +408,7 @@ class Tag(db.Model):
     def from_json(json_tag):
         name = json_tag.get('name')
         if name is None or name == '':
-            raise ValidationError('tag does not exists')
+            raise ValidationError('標籤不存在。')
         return Tag(name=name)
 
 
@@ -430,7 +447,7 @@ class Comment(db.Model):
     def from_json(json_comment):
         body = json_comment.get('body')
         if body is None or body == '':
-            raise ValidationError('comment does not have a body')
+            raise ValidationError(u'評論沒有內容。')
         return Comment(body=body)
 
 

@@ -36,7 +36,6 @@
 <div class="writer" >
     {% if current_user.can(Permission.WRITE_ARTICLES) %}
     {{ wtf.quick_form(form) }}
-    <select id="#e20"></select>
     {% else %}
     <p>抱歉，你没有写作的权限  ~_~</p>
     {% endif %}

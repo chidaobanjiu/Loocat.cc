@@ -6,7 +6,7 @@ from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostFormM,\
     PostFormC, CommentForm
 from .. import db
-from ..models import Permission, Role, User, Post, Comment, Tag
+from ..models import Permission, Role, User, Post, Comment, Tag, Category
 from ..decorators import admin_required, permission_required
 
 
@@ -67,13 +67,11 @@ def write():
         post = Post(title=form.title.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
-        for t in form.tagged.data:
-            tag = Tag.query.filter_by(id=t)
-            if not post.is_tagged_by(tag):
-                post.tagging(tag)
+        post.tags = form.tags.data
+        post.category = Category.query.get(form.category.data)
         db.session.add(post)
         return redirect(url_for('.index'))
-    return render_template('writing.html', form=form, taglist=taglist,
+    return render_template('writing.html', form=form,
                            user=current_user)
 
 
@@ -84,14 +82,11 @@ def write0():
     if current_user.can(Permission.WRITE_ARTICLES):
         post = Post(title=form.title.data,
                     body=form.body.data,
+                    category=form.category.data,
                     author=current_user._get_current_object())
-        for t in form.tagged.data:
-            tag = Tag.query.filter_by(id=t)
-            if not post.is_tagged_by(tag):
-                post.tagging(tag)
         db.session.add(post)
         return redirect(url_for('.index'))
-    return render_template('writing0.html', form=form, taglist=taglist,
+    return render_template('writing0.html', form=form,
                            user=current_user)
 
 

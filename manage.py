@@ -7,7 +7,7 @@ if os.environ.get('MANA_COVERAGE'):
     COV.start()
 
 from app import create_app, db
-from app.models import User, Role, Permission, Post, Comment, Tag
+from app.models import User, Role, Permission, Post, Comment, Tag, Category
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
@@ -17,7 +17,7 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Role=Role, Tag=Tag,
+    return dict(app=app, db=db, User=User, Role=Role, Tag=Tag, Category=Category,
                 Permission=Permission, Post=Post, Comment=Comment)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
