@@ -6,16 +6,18 @@
 
 {% block page_content %}
 {% include '_posts.html' %}
-<h4 id="comments">Comments</h4>
 {% if current_user.can(Permission.COMMENT) %}
+<h4 id="comments"><i class="iconfont icon-comments"></i> 評論</h4>
 <div class="comment-form">
     {{ wtf.quick_form(form) }}
 </div>
-{% endif %}
 {% include '_comments.html' %}
 {% if pagination %}
 <div class="pagination">
     {{ macros.pagination_widget(pagination, '.post', fragment='#comments', id=posts[0].id) }}
 </div>
+{% endif %}
+{% else %}
+<p>評論需要登錄。</p>
 {% endif %}
 {% endblock %}
