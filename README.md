@@ -1,6 +1,8 @@
-Flasky
+MANA2077
 ======
 
-This repository contains the source code examples for my O'Reilly book [Flask Web Development](http://www.flaskbook.com).
+This repository contains the source code  for my personal-blog mana2077.com
 
-The commits and tags in this repository were carefully created to match the sequence in which concepts are presented in the book. Please read the section titled "How to Work with the Example Code" in the book's preface for instructions.
+and it's based on O'Reilly book [Flask Web Development](http://www.flaskbook.com).
+
+it hasn't been deployed now.
