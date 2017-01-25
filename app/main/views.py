@@ -185,6 +185,7 @@ def edit(id):
         return redirect(url_for('.post', id=post.id))
     form.title.data = post.title
     form.body.data = post.body
+    form.tags.data = post.tags
     return render_template('edit_post.html', post=[post], form=form)
 
 

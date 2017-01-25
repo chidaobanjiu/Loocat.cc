@@ -26,9 +26,9 @@
         <div class="blog-post-content">
             <div class="blog-post-body">
                 {% if post.body_html %}
-                    {{ post.body_html | safe }}
+                    {{ post.body_html | safe | truncate(666, True)}}
                 {% else %}
-                    {{ post.body }}
+                    {{ post.body | truncate(666, True)}}
                 {% endif %}
             </div>
             <div class="blog-post-footer">

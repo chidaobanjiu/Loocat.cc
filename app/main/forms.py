@@ -10,7 +10,7 @@ from flask_pagedown.fields import PageDownField
 from ..models import Role, User, Tag, Category
 
 class NameForm(Form):
-    name = StringField(u'你的名字。', validators=[Required()])
+    name = StringField(u'你的名字。', validators=[Required()], default=u"你的名字")
     submit = SubmitField(u'提交')
 
 
@@ -146,5 +146,5 @@ class PostFormC(Form):
 
 
 class CommentForm(Form):
-    body = StringField(u'輸入你的評論', validators=[Required()])
+    body = StringField('', validators=[Required()])
     submit = SubmitField(u'提交')

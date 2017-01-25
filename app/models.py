@@ -340,7 +340,6 @@ class Post(db.Model):
             'body': self.body,
             'body_html': self.body_html,
             'title': self.title,
-            'title_html': self.title_html,
             'timestamp': self.timestamp,
             'tags': url_for('api.get_post_tags', id=self.id,
                                 _external=True),
