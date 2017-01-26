@@ -46,14 +46,6 @@
 {{ super() }}
 {{ simplemde.js }}
 {{ pagedown.include_pagedown()}}
-<script type="text/javascript">
-  $('select').select2();
-  $("#e20").select2({
-    placeholder:"Select tags"
-    tags:taglist,
-    tokenSeparators: [",", " "]
-    });
-</script>
 {% endblock %}
 
 {% block simplemde %}

@@ -103,13 +103,78 @@ div.bottom-line {
  * Masthead for nav-silver-top
  */
 nav.navbar {
-    position:fixed;
-    z-index: 1;
+    position:absolute;
+    z-index: 5;
     background-color: #fff;
     width:100%;
     box-shadow: 0 2px 5px rgba(0,37,55,.08);
 }
 
+
+/*
+ * Masthead for nav blue fixed
+ */
+
+.blog-masthead {
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  width:100%;
+  background-color: #428bca;
+  box-shadow: 0 2px 5px rgba(0,37,55,.08);
+  text-align: center;
+}
+
+/* Active state gets a caret at the bottom */
+a.active {
+  color: #fff;
+}
+a.active :after {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin-left: -5px;
+  vertical-align: middle;
+  content: " ";
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid;
+  border-left: 5px solid transparent;
+}
+
+
+/* Nav links */
+.blog-nav-item {
+  position: relative;
+  display: inline-block;
+  padding: 10px;
+  font-weight: 500;
+  color: #cdddeb;
+}
+.blog-nav-item {
+  color: #f3f3f3;
+}
+.blog-nav-item:hover,
+.blog-nav-item:focus {
+  color: #d73b84;
+  text-decoration: none;
+}
+
+/*
+ * Back to top Button
+ */
+#to_top {
+  text-align: center;
+  width: 60px;
+  height: 40px;
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,37,55,.08);
+  border-radius: 0;
+  z-index: 3;
+}
 
 /*
  * Blog name and description
@@ -216,14 +281,34 @@ li.blog-post {
     margin-bottom: 30px;
     margin-left: auto;
     margin-right: auto;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 300;
     text-align: left;
+    color: #5f6d80;
 }
+/* various formats setting */
 .blog-post-body > p {
     line-height: 1.5;
     color: #5f6d80;
 }
+.blog-post-body > blockquote > p {
+    line-height: 1.5;
+    color: #5f6d80;
+    font-size: 18px;
+    font-weight: 300;
+}
+/* codeblock <pre> define */
+/*.blog-post-body > pre {
+    border-radius: 0;
+    background-color: #263238;
+}
+*/
+/*.blog-post-body > pre > code {
+    color: #73D1C8;
+    font-size: 16;
+    line-height: 1.5;
+}
+*/
 /* blog footer*/
 .blog-post-footer {
     margin-bottom: 40px;
@@ -387,6 +472,11 @@ div.writer {
 }
 .form {
     height: 100%;
+}
+div.CodeMirror,
+.cm-s-paper,
+.CodeMirroe-wrap {
+  z-index: 1;
 }
 #submit {
     margin: 0 0 4%;

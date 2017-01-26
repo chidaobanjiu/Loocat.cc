@@ -20,45 +20,45 @@
         <title>{% block title %} Welcome to 2077 {% endblock title %}</title>
 
     <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+        <link href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- ali iconfont -->
-        <link rel="stylesheet" href="http:////at.alicdn.com/t/font_c0xdzly7rhaxajor.css">
-
-    <!-- Select2 core js and css -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+        <link rel="stylesheet" href="http://at.alicdn.com/t/font_8eg7pdoydd6ajor.css">
 
     <!-- Custom styles for this template -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='blog.css') }}">
+
+    <!-- Custom styles for my code-prettify -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='prettify.css')}}">
+
         {%- block styles %}
         {%- endblock styles %}
     </head>
     {%- endblock head %}
 
-    <body {% block body_attribs %}{% endblock body_attribs %}>
+    <body  {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
 
         <!-- Fixed blue navbar -->
-        <!--<div class="navbar-default blog-masthead" role="navigation">
+        <nav class="navbar-default blog-masthead" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                  <button type="button" class="navbar-toggle-blue collapsed" data-toggle="collapse" data-target="#blog-nav" aria-expanded="false" aria-controls="blog-masthead">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#blog-nav" aria-expanded="false" aria-controls="blog-masthead">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar-blue"></span>
                     <span class="icon-bar-blue"></span>
                   </button>
-                  <a class="blog-nav-item" href="{{ url_for('main.index') }}">Smile</a>
                 </div>
                 <div id="blog-nav" class="navbar-collapse collapse">
-                  <nav class="blog-nav">
-                    <a class="blog-nav-item active" href="{{ url_for('main.index') }}">返回顶部</a>
-                    <a class="blog-nav-item" href="{{ url_for('main.blogs') }}">博客</a>
-                    <a class="blog-nav-item" href="{{ url_for('main.write') }}">写作</a>
-                  </nav>
+                  <ul class="nav navbar-nav">
+                    <a class="blog-nav-item" >Smile</a>
+                    <a class="blog-nav-item active" href="{{ url_for('main.index') }}">主頁</a>
+                    <a class="blog-nav-item" href="{{ url_for('main.blogs') }}">文章</a>
+                    <a class="blog-nav-item" href="{{ url_for('main.write') }}">書寫</a>
+                  </ul>
                 </div>
             </div>
-       </div> -->
+       </nav>
 
       <!-- Absolute silver navbar -->
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -157,7 +157,7 @@
         <!-- .blog-sidebar/begin -->
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           <div class="sidebar-module sidebar-module-inset">
-            <h4>About</h4>
+            <h4>Mozart</h4>
             <p class="about"> <em>Es ist ein Irrtum zu glauben</em> , dass die Praxis von meiner Kunst zu mir
                 leicht geworden ist. Ich versichere Ihnen , lieber Freund , niemand hat so viel Sorgfalt auf
                 das Studium der Komposition als ich. </p>
@@ -185,6 +185,10 @@
 
       </div><!-- /.row -->
       {%- endblock content %}
+      <div><button id="to_top" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Back to top">
+              <i class="iconfont icon-fanhuidingbu01"></i>
+          </button>
+      </div>
     </div><!-- /.container -->
     {%- endblock pagecotent %}
 
@@ -200,9 +204,35 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='docs.min.js.下载') }}"></script>
+    <!-- The google code-prettidy css and js -->
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+    <script type="text/javascript">
+    //绑定页面滚动事件
+    $(document).bind('scroll',function(){
+        var len=$(this).scrollTop()
+        if(len>=100){
+            //显示回到顶部按钮
+            $('#to_top').show('fast');
+        }else{
+            //影藏回到顶部按钮
+            $('#to_top').hide();
+        }
+    })
+    //绑定回到顶部按钮的点击事件
+    $('#to_top').click(function(){
+        //动画效果，平滑滚动回到顶部
+        $('body').animate({ scrollTop: 0 });
+    })
+    //給所以<pre> 加上'class='prettyprint'
+    $(document).ready(function(){
+        $('pre').addClass("prettyprint");
+        PR.prettyPrint();
+    });
+    </script>
     {% block scripts %}
     {{ moment.include_moment() }}
     {%- endblock scripts %}

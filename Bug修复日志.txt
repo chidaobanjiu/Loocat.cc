@@ -1,0 +1,106 @@
+2017.1.24
+
+socketsocks链接问题。日志显示目标计算机积极拒绝。
+
+端口错误，8838改为8823。8838是默认端口。 
+
+配置开发环境：
+windows下python环境的搭建http://www.cnblogs.com/windinsky/archive/2012/09/20/2695520.html
+windows下pip install的安装http://www.tuicool.com/articles/eiM3Er3
+安装virtualenv（注意拼写）
+在MANA2077内新建venvhttp://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432712108300322c61f256c74803b43bfd65c6f8d0d0000
+
+尝试安装github 下载后运行报错URLDownloadToCacheFile failed with HRESULT '-2146697208'查找解决办法：
+尝试直接链接https://github-windows.s3.amazonaws.com/GitHub.application下载GitHub.application 用chrome下载后运行依旧报错，
+之后用IE下载解决问题。我也不知道为什么。。。。好像是涉及到不同浏览器对.application的支持。
+
+
+2017.1.25
+
+因为没有拷贝私人秘钥导致无法连接服务器，只有重置后重新配置。。。新建了秘钥在SSH文件夹中。新建的droplet支持新旧两组秘钥。
+之前的socketsocks搭建链接也失效了（可能与最近的政策有关吧）。尝试重新配置服务器。
+
+apt-get install python
+apt-get update
+apt-get install python-pip
+apt-get pip install shadowsocks
+安装完毕配置shadowsocks文件
+vim /etc/shadowsocks.json
+
+    {
+      "server":"你的服务器IP，注意不是127.0.0.1哦",
+      "port_password":{
+           "8381":"随意设定8381端口使用密码",
+           "8382":"随意设定8382端口使用密码",
+           "8383":"随意设定8383端口使用密码"
+      },
+      "timeout":300,
+      "method":"aes-256-cfb"
+    }
+运行服务：
+ssserver -c /etc/shadowsocks.json -d start
+
+shadowsocks的运行管理任务交给supervisor，这样如果ss挂了，supervisor会帮我们自动将shadowsocks重新启动，保证了ss的稳定性。
+
+pip install supervisor
+# 初始化配置文件
+# 此命令会在 /etc/下创建一个示例配置文件
+
+echo_supervisord_conf > /etc/supervisord.conf
+
+# 在/etc/supervisord.conf文件最后添加shadowsocks实例，代码如下
+[program:shadowsocks]
+command = ssserver -c /etc/shadowsocks.json
+user = root
+autostart = true
+autoresart = true
+
+最后设置supervisor开机启动:
+
+vim /etc/rc.local
+# 在exit前添加以下内容
+supervisord -c /etc/supervisord.conf
+
+VPN搭建完毕，进行博客部署：
+
+链接域名与服务器。
+域名托管在https://www.namesilo.com，设置以后同样需要在服务器端（oceandigit）进行设置。
+
+服务器部署。
+$ sudo apt-get update
+$ sudo apt-get install python-dev python-pip python-virtualenv
+安装nginx。
+$ sudo apt-get install nginx
+创建项目目录。
+$ sudo mkdir /home/deploy/mana2077
+这里可能需要一层层创建目录
+更改目录权限 chmod 777 意思是该登录用户（可以用命令id查看）、他所在的组和其他人都有最高权限。
+$ sudo chmod 777 /home/deploy/mana2077
+将项目中github导入到服务器
+root@localhost:/home/deploy# git clone https://github.com/chidaobanjiu/mana2077
+创建venv环境，因为github项目是由windows上传，venv文件夹内是Scripts。而服务器创建的则是bin
+root@localhost:/home/deploy/mana2077# virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+
+
+
+
+2017.1.26
+
+上传JavaScript学习笔记发现网页markdown格式错误，__post.html 不识别```代码块语法。后来查询解决办法，一是改用·回车加两个tab·
+的语法定义代码块，经试验可以正常显示。
+一是markdown库的使用问题，```的识别支持需要作为拓展在markdown语法里声明使用。markdown(value, output_format='html',extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
+分割线语法错误，正确语法是另起一行三个星号***
+无法解决，决定放过。
+
+刚刚发现的truncate（400，true）可以实现显示博客摘要，发现在与safe过滤器同时使用的情况下有伪元素的Bug，决定放弃使用该功能。
+
+代码块的效果不是很满意，找到了Code Prettify，配置比较简单。加载js与css
+重要的是要使pretty对markdown语法生成的文章有效，需要在每个<pre>加入一个class='prettyprint'标签。这里用jquery实现。
+最后加载prettyPrint，免去了在body处的onload加载：
+    $(document).ready(function(){
+        $('pre').addClass("prettyprint");
+        PR.prettyPrint();
+    });

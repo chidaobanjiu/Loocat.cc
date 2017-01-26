@@ -10,6 +10,7 @@ from flask_simplemde import SimpleMDE
 from flask_admin import Admin
 from controller.views import CustomView, CustomModelView, PostView
 
+
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -17,7 +18,6 @@ db = SQLAlchemy()
 pagedown = PageDown()
 simplemde = SimpleMDE()
 admin = Admin()
-
 
 
 login_manager = LoginManager()
@@ -37,6 +37,7 @@ def create_app(config_name):
     login_manager.init_app(app)
     pagedown.init_app(app)
     simplemde.init_app(app)
+
     """Create the app instance via factory-method"""
     admin.init_app(app)
     """register view function 'CustomModelView' into Flask-Admin"""
