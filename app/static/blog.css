@@ -52,11 +52,26 @@ p {
     color: #333;
 }
 
+.flask-moment {
+  display: block;
+}
+
 div.bottom-line {
     width: 50%;
     height: 1%;
     border-bottom:solid 2px #eee;
 }
+
+/* Alert-Warning */
+.alert,
+.alert-warning {
+  width: 80%;
+  margin: 0 10% 0 10%;
+  top: 10px;
+  z-index: 5;
+  position: absolute;
+}
+
 
 
 /*
@@ -87,12 +102,12 @@ div.bottom-line {
 }
 
 @media screen and (max-width: 1100px) {
-.container {width: auto;}
+.container {width: 100%}
 }
 /* 设置了浏览器宽度不大于900px时 abc 显示auto宽度 */
 
 @media screen and (max-width: 500px) {
-.container {width: auto;}
+.container {width: 100%}
 }
 
 
@@ -104,7 +119,7 @@ div.bottom-line {
  */
 nav.navbar {
     position:absolute;
-    z-index: 5;
+    z-index: 3;
     background-color: #fff;
     width:100%;
     box-shadow: 0 2px 5px rgba(0,37,55,.08);
@@ -291,11 +306,19 @@ li.blog-post {
     line-height: 1.5;
     color: #5f6d80;
 }
+.blog-post-body > blockquote > p > code{
+    max-width: 80%;
+}
 .blog-post-body > blockquote > p {
     line-height: 1.5;
     color: #5f6d80;
     font-size: 18px;
     font-weight: 300;
+}
+.blog-post-body > p > img {
+    margin: 0 auto 0;
+    max-width: 90%;
+    display: block;
 }
 /* codeblock <pre> define */
 /*.blog-post-body > pre {
@@ -530,7 +553,7 @@ div.CodeMirror,
 @media (max-width: 768px) {
   .col-sm-8,
   .blog-main {
-    width: auto;
+    width: 100%;
     margin: auto;
   }
 }
@@ -543,22 +566,37 @@ div.CodeMirror,
   }
 }
 
-@media (max-width: 768px) {
-  .blog-sidebar {
-      display: none;
-  }
-}
 
 @media (max-width: 1110px) {
   .blogs-header {
     width: 100%;
     margin: 0;
   }
+  .blog-post-title {font-size: 36px}
+  .blog-post-meta {font-size: 18px}
+  .blog-post-body {font-size: 18px}
+  .blog-post-body > blockquote > p {font-size: 16px}
 }
 
-@media (max-width: 300px) {
+@media (max-width: 768px) {
+  .blog-sidebar {
+      display: none;
+  }
+  .blog-post-title {font-size: 30px}
+  .blog-post-meta {font-size: 16px}
+  .blog-post-body {font-size: 16px}
+  .blog-post-footer {font-size: 14px}
+  .blog-post-body > blockquote > p {font-size: 14px}
+}
+
+@media (max-width: 500px) {
   .blogs-header {
-    width: auto;
+    width: 100%;
     margin: auto;
   }
+  .blog-post-title {font-size: 20px}
+  .blog-post-meta {font-size: 12px}
+  .blog-post-body {font-size: 12px}
+  .blog-post-footer {font-size: 10px}
+  .blog-post-body > blockquote > p {font-size: 10px}
 }

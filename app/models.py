@@ -328,13 +328,18 @@ class Post(db.Model):
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
-                        'h1', 'h2', 'h3', 'p', 'br']
+                        'h1', 'h2', 'h3', 'p', 'br', 'img']
+        #解决文章中插入图片的问题
+        attrs = {
+            '*': ['class'],
+            'a': ['href', 'rel'],
+            'img': ['src', 'alt'],
+        }
         target.body_html = bleach.linkify(bleach.clean(
             markdown(value, output_format='html',
             extensions=['markdown.extensions.extra',
-                        'markdown.extensions.codehilite',
                         'markdown.extensions.nl2br']),
-            tags=allowed_tags, strip=True))
+            tags=allowed_tags, strip=True, attributes=attrs))
 
 
     def to_json(self):

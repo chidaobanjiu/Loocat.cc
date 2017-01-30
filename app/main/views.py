@@ -82,8 +82,9 @@ def write0():
     if current_user.can(Permission.WRITE_ARTICLES):
         post = Post(title=form.title.data,
                     body=form.body.data,
-                    category=form.category.data,
                     author=current_user._get_current_object())
+        post.tags = form.tags.data
+        post.category = Category.query.get(form.category.data)
         db.session.add(post)
         return redirect(url_for('.index'))
     return render_template('writing0.html', form=form,

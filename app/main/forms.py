@@ -142,7 +142,7 @@ class PostFormC(Form):
     def __init__(self, *args, **kwargs):
         super(PostFormC, self).__init__(*args, **kwargs)
         self.category.choices = [(category.id, category.name)
-                             for role in Category.query.order_by(Category.name).all()]
+                             for category in Category.query.order_by(Category.name).all()]
 
 
 class CommentForm(Form):
