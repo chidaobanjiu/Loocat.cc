@@ -85,6 +85,21 @@ root@localhost:/home/deploy/mana2077# virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
+(venv) $ gunicorn -w 4 -b 127.0.0.1:8080 wsgi:application
+
+
+直接修改nginx默认配置文件default为：
+server {
+    listen 80;
+    server_name example.org; # 这是HOST机器的外部域名，用地址也行
+
+    location / {
+        proxy_pass http://127.0.0.1:8080; # 这里是指向 gunicorn host 的服务地址
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+  }
 
 
 
@@ -111,3 +126,7 @@ pip install -r requirements.txt
 
 markdown不支持图片显示，在model里post.body_html生成时加入<img>支持。以及attr属性，解决问题。
 另外解决了在手机等低分辨率设备下的显示问题。
+
+2017.2.2
+
+CKEditor调试成功，navbar改版

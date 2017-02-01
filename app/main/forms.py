@@ -136,7 +136,7 @@ class PostFormC(Form):
     title = StringField(u"標題")
     category = SelectField(u"", coerce=int)
     tags = TagListField(u"標籤", validators=[Required()])
-    body = TextAreaField(u"內容")
+    body = CKTextAreaField(u"內容")
     submit = SubmitField(u'提交')
 
     def __init__(self, *args, **kwargs):

@@ -32,17 +32,19 @@ def server_shutdown():
     return 'Shutting down...'
 
 
-@main.route('/blogs', methods=['GET', 'POST'])
-def blogs():
+@main.route('/blogs/<category>', methods=['GET', 'POST'])
+def blogs(category):
     page = request.args.get('page', 1, type=int)
-    query = Post.query
+    cate = Category.query.filter_by(name=category).first_or_404()
+    query = Post.query.filter_by(category_id=cate.id)
     pagination = query.order_by(Post.timestamp.desc()).paginate(
         page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
     tags = Tag.query.all()
     return render_template('blogs.html', posts=posts, tags=tags,
-                           pagination=pagination, user=current_user)
+                           pagination=pagination, user=current_user, category=category)
+
 
 
 @main.route('/', methods=['GET'])
@@ -77,9 +79,10 @@ def write():
 
 @main.route('/writing_CKEditor', methods=['GET', 'POST'])
 def write0():
-    form = PostFormC()
+    form = PostFormM()
     taglist = Tag.query.all()
-    if current_user.can(Permission.WRITE_ARTICLES):
+    if current_user.can(Permission.WRITE_ARTICLES) and \
+            form.validate_on_submit():
         post = Post(title=form.title.data,
                     body=form.body.data,
                     author=current_user._get_current_object())
@@ -179,6 +182,8 @@ def edit(id):
         abort(403)
     form = PostFormM()
     if form.validate_on_submit():
+        post.tags = form.tags.data
+        post.category = Category.query.get(form.category.data)
         post.title = form.title.data
         post.body = form.body.data
         db.session.add(post)
@@ -187,7 +192,9 @@ def edit(id):
     form.title.data = post.title
     form.body.data = post.body
     form.tags.data = post.tags
+    form.category.data = post.category_id
     return render_template('edit_post.html', post=[post], form=form)
+
 
 
 @main.route('/all')

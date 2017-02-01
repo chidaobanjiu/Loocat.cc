@@ -9,7 +9,7 @@ body {
     padding: 0;
     font-family: Georgia, "Times New Roman", Times, SimSun, serif;
     color: #333;
-    background: #f1f1f1;
+    background: #f2f4f1;
 }
 body > div.container {
     margin-top: 30px;
@@ -111,9 +111,31 @@ div.bottom-line {
 }
 
 
-
-
-
+/*
+ * Masthead for site-header
+ */
+div.site-header {
+    width: 100%;
+    text-align: center;
+    background-image: url(static/pic/backpic.jpg);
+    padding: 20px 0 0 0;
+}
+.site-header > h1 {
+    color: #332;
+    font-style: font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 60px;
+    font-weight: normal;
+    width: auto;
+    padding: 5px 0 5px 0;
+}
+.site-header > p {
+    background-color: ;
+    font-size: 20px;
+    height: 24px;
+    color: #888;
+    margin: 4px 4% 0 4%;
+    border-bottom: 1px solid #aaa;
+}
 /*
  * Masthead for nav-silver-top
  */
@@ -136,26 +158,22 @@ nav.navbar {
   top: 0;
   width:100%;
   background-color: #428bca;
+  border-bottom: 1px solid #bbb;
   box-shadow: 0 2px 5px rgba(0,37,55,.08);
   text-align: center;
+}
+.icon-bar-blue {
+  background-color: #fff;
+  display: block;
+  width: 20px;
+  height: 2px;
+  margin-top: 4px;
+  border-radius: 1px;
 }
 
 /* Active state gets a caret at the bottom */
 a.active {
   color: #fff;
-}
-a.active :after {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -5px;
-  vertical-align: middle;
-  content: " ";
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid;
-  border-left: 5px solid transparent;
 }
 
 
@@ -168,27 +186,26 @@ a.active :after {
   color: #cdddeb;
 }
 .blog-nav-item {
-  color: #f3f3f3;
+  color: #ddd;
 }
 .blog-nav-item:hover,
 .blog-nav-item:focus {
-  color: #d73b84;
+  color: #fff;
   text-decoration: none;
 }
+
 
 /*
  * Back to top Button
  */
 #to_top {
-  text-align: center;
-  width: 60px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   position: fixed;
-  left: 20px;
-  bottom: 20px;
-  box-shadow: 0 2px 5px rgba(0,37,55,.08);
-  border-radius: 0;
-  z-index: 3;
+  left: 30px;
+  bottom: 18px;
+  background-color: #428bca;
+  z-index: 4;
 }
 
 /*
@@ -204,7 +221,7 @@ div.blog-title {
     padding-top: 30px;
     text-align: center;
     background-color: #fefefe;
-    box-shadow: 0 2px 3px rgba(0,37,55,.05);
+    box-shadow: 0 2px 5px rgba(0,37,55,.08);
     border-width: 4px;
     border-color: #d54b44;
     border-style: solid;
@@ -248,7 +265,7 @@ p.login-description {
   line-height: 1.5;
   width: 73%;
   background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0,37,55,.05);
+  box-shadow: 0 2px 5px rgba(0,37,55,.08);
 }
 .blog-sidebar {
     width: 25%;
@@ -320,18 +337,7 @@ li.blog-post {
     max-width: 90%;
     display: block;
 }
-/* codeblock <pre> define */
-/*.blog-post-body > pre {
-    border-radius: 0;
-    background-color: #263238;
-}
-*/
-/*.blog-post-body > pre > code {
-    color: #73D1C8;
-    font-size: 16;
-    line-height: 1.5;
-}
-*/
+
 /* blog footer*/
 .blog-post-footer {
     margin-bottom: 40px;
@@ -386,9 +392,9 @@ div.blog-container {
     background-color: #fff;
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
-    margin: 0 0 30px 0;
+    margin: 0 0 15px 0;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0,37,55,.05);
+    box-shadow: 0 2px 5px rgba(0,37,55,.08);
 }
 .post-blog > ul > li > div > div {
     margin-left: auto;
@@ -421,7 +427,7 @@ div.blog-container {
     margin: 0 -15px 15px;
     background-color: #fcfcfc;
     border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    box-shadow: 2px 2px 5px rgba(0,37,55,.08);
 }
 .sidebar-module > .bottom-line > h4 {
     margin-bottom: 4px;
@@ -429,7 +435,7 @@ div.blog-container {
 .sidebar-module-inset {
     padding: 15px;
     background-color: #fff;
-    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    box-shadow: 0 2px 5px rgba(0,37,55,.08);
     border-radius: 4px;
 }
 .sidebar-module-inset p:last-child,
@@ -491,7 +497,8 @@ div.writer {
     margin: 0 -15px 30px -15px;
     height: auto;
     border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0,37,55,.05);
+    box-shadow: 0 2px 5px rgba(0,37,55,.08);
+    z-index: 2;
 }
 .form {
     height: 100%;
@@ -587,6 +594,10 @@ div.CodeMirror,
   .blog-post-body {font-size: 16px}
   .blog-post-footer {font-size: 14px}
   .blog-post-body > blockquote > p {font-size: 14px}
+  div.blog-container {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 }
 
 @media (max-width: 500px) {

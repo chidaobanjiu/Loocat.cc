@@ -20,9 +20,8 @@ class CustomModelView(ModelView):
 class PostView(CustomModelView):
     """View function of Flask_Admin for Post create/edit Page includedin Models page"""
 
-    # Using the CKTextAreaField to replace the Field name is 'test'
+    # Using the CKTextAreaField to replace the Field name is 'body' and 'body_html'
     form_overrides = dict(body=CKTextAreaField)
-    form_overrides = dict(body_html=CKTextAreaField)
 
     # Using Search box
     column_searchable_list = ('body', 'title')

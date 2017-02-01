@@ -257,8 +257,9 @@ class Category(db.Model):
         cats = {
             'Python': False,
             'Flask': False,
-            'BootStrap': False,
-            'Blogs': True
+            'JavaScript': False,
+            u'记录': False,
+            u'Blogs': True
         }
         for c in cats:
             cat = Category.query.filter_by(name=c).first()

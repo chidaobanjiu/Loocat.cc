@@ -28,6 +28,9 @@
     <!-- Custom styles for this template -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='blog.css') }}">
 
+    <!-- Custom buttons styles for this template -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='buttons.css') }}">
+
     <!-- Custom styles for my code-prettify -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='prettify.css')}}">
 
@@ -51,17 +54,24 @@
                 </div>
                 <div id="blog-nav" class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
-                    <a class="blog-nav-item" >Smile</a>
                     <a class="blog-nav-item active" href="{{ url_for('main.index') }}">主頁</a>
-                    <a class="blog-nav-item" href="{{ url_for('main.blogs') }}">文章</a>
+                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
+                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
+                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
                     <a class="blog-nav-item" href="{{ url_for('main.write') }}">書寫</a>
                   </ul>
                 </div>
             </div>
        </nav>
 
+
       <!-- Absolute silver navbar -->
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="site-header">
+            <h1>別处</h1>
+            <p>「顧左右_立天地_度春秋」</p>
+        </div>
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -70,14 +80,19 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url_for('main.index') }}">Smile</a>
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               {% block navbar -%}
               <li class="active"><a href="{{ url_for('main.index') }}">主頁</a></li>
-              <li><a href="{{ url_for('main.blogs') }}">文章</a></li>
+              <li><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+              <li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
+              <li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
+              <li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
               {%- endblock navbar %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              {% if current_user.is_authenticated %}
               {% block navbarwriter -%}
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -85,15 +100,11 @@
                   </a>
                   <ul class="dropdown-menu" role="menu">
                       <li class="dropdown-header">編輯方式</li>
-                      <li><a href="{{ url_for('main.write') }}">MarkDown(推薦)</a></li>
-                      <li><a href="{{ url_for('main.write0') }}">CDEditor(開發中)</a></li>
-
+                      <li><a href="{{ url_for('main.write') }}">MarkDown</a></li>
+                      <li><a href="{{ url_for('main.write0') }}">CDEditor</a></li>
                   </ul>
               </li>
               {%- endblock navbarwriter %}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              {% if current_user.is_authenticated %}
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       {{ current_user.username }}<span class="caret"></span>
@@ -147,7 +158,7 @@
               <!--Pager-->
               {% if pagination %}
               <nav class="pager">
-                  {{ macros.pagination_widget(pagination, '.blogs') }}
+                  {{ macros.pagination_widget(pagination, '.index') }}
               </nav>
               {% endif %}
               {% endblock %}
@@ -157,10 +168,10 @@
         <!-- .blog-sidebar/begin -->
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           <div class="sidebar-module sidebar-module-inset">
-            <h4>Mozart</h4>
-            <p class="about"> <em>Es ist ein Irrtum zu glauben</em> , dass die Praxis von meiner Kunst zu mir
-                leicht geworden ist. Ich versichere Ihnen , lieber Freund , niemand hat so viel Sorgfalt auf
-                das Studium der Komposition als ich. </p>
+            <h4>BOARD</h4>
+            <p class="about"> <em>Waiting</em> for something matters. </p>
+            <p>Maybe someday I will got true words
+            that really fit this <em>BOARD</em>.</p>
           </div>
           <div class="sidebar-module">
             <div class="bottom-line"><h4>標籤      </h4>
@@ -172,7 +183,7 @@
             </ol>
           </div>
           <div class="sidebar-module">
-            <div class="bottom-line"><h4>別處      </h4>
+            <div class="bottom-line"><h4>Somewhere/else      </h4>
             </div>
             <ol class="list-unstyled other">
               <li><a href="http://twitter.com/" target="_blank"><i class="iconfont icon-twitter"></i>  Twitter</a></li>
@@ -185,9 +196,7 @@
 
       </div><!-- /.row -->
       {%- endblock content %}
-      <div><button id="to_top" type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Back to top">
-              <i class="iconfont icon-fanhuidingbu01"></i>
-          </button>
+      <div><button id="to_top" type="button" class="button button-primary button-small">TOP</button>
       </div>
     </div><!-- /.container -->
     {%- endblock pagecotent %}
@@ -195,9 +204,6 @@
 
     <div class="blog-footer">
       <p>Powered by <a href="http://getbootstrap.com/">Bootstrap</a> and <a href="http://flask.pocoo.org/">Flask</a>.</p>
-      <p>
-        <a href="{{url_for('main.blogs')}}">Back to top</a>
-      </p>
     </div>
 
 

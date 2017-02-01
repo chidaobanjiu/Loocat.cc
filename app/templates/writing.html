@@ -7,8 +7,11 @@
 {% block styles %}{{ simplemde.css }}{% endblock %}
 
 {% block navbar %}
-<li><a href="{{ url_for('main.index') }}">主页</a></li>
-<li><a href="{{ url_for('main.blogs') }}">文章</a></li>
+<li><a href="{{ url_for('main.index') }}">主頁</a></li>
+<li class="active"><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+<li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
+<li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
+<li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
 {% endblock %}
 
 {% block navbarwriter %}

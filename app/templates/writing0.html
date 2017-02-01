@@ -2,14 +2,17 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% import "_macros.html" as macros %}
 
-{% block title %}Writing|2077{% endblock %}
+{% block title %}CKEditor|2077{% endblock %}
 
 {% block navbar %}
 <li><a href="{{ url_for('main.index') }}">主頁</a></li>
-<li><a href="{{ url_for('main.blogs') }}">博客</a></li>
+<li class="active"><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+<li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
+<li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
+<li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
 {% endblock %}
 
-{% block navbarwriter%}
+{% block navbarwriter %}
 <li class="dropdown active">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         CDEditor<span class="caret"></span>
@@ -32,20 +35,26 @@
 
 {% block content %}
 <div class="writer" >
-    {% if current_user.can(Permission.WRITE_ARTICLES) %}
-    <form method="POST" action="{{ url_for('main.write0') }}">
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.title.label }}
-            {{ form.title(class='form-control') }}
-        </div>
-        <div class="form-group">
-            {{ form.body.label }}
-            {{ form.body(id='editor', class='form-control') }}
-        </div>
-        <input class="btn-primary" type="submit" value="Submit">
-        {% endif %}
-    </form>
+  <form method="POST" action="{{ url_for('main.write0') }}">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+          {{ form.title.label }}
+          {{ form.title(class='form-control') }}
+      </div>
+      <div class="form-group">
+          {{ form.category.label }}
+          {{ form.category(class='form-control') }}
+      </div>
+      <div class="form-group">
+          {{ form.tags.label }}
+          {{ form.tags(class='form-control') }}
+      </div>
+      <div class="form-group">
+          {{ form.body.label }}
+          {{ form.body(id='editor', class='form-control') }}
+      </div>
+      <input class="btn-primary" type="submit" value="Submit">
+  </form>
 </div>
 {% endblock %}
 

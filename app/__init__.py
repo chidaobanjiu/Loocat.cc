@@ -43,11 +43,11 @@ def create_app(config_name):
     """register view function 'CustomModelView' into Flask-Admin"""
     admin.add_view(CustomView(name='back home'))
     """import models here because models' import db from __init__"""
-    from .models import User, Post, Role, Tag, Comment, Permission
+    from .models import User, Post, Role, Tag, Comment, Permission, Category
     """register view function 'CustomModelView' into Flask-Admin"""
     admin.add_view(
         PostView(Post, db.session, name='Post'))
-    models = [Role, Tag, User]
+    models = [Role, Tag, User, Category]
     for model in models:
         admin.add_view(
             CustomModelView(model, db.session, category='Models'))

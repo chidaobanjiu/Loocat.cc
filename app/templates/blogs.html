@@ -6,7 +6,10 @@
 
 {% block navbar %}
 <li><a href="{{ url_for('main.index') }}">主頁</a></li>
-<li class="active"><a href="{{ url_for('main.blogs') }}">文章</a></li>
+<li class="active"><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+<li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
+<li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
+<li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
 {% endblock %}
 
 {% block pagecotent %}
@@ -26,15 +29,25 @@
           <!--Pager-->
           {% if pagination %}
           <nav class="pager">
-              {{ macros.pagination_widget(pagination, '.blogs') }}
+              {{ macros.pagination_widget(pagination, '.blogs', category=category) }}
           </nav>
           {% endif %}
         </div>
     </div><!-- /.row -->
+    <div><button id="to_top" type="button" class="button button-primary button-small">TOP</button>
+    </div>
 </div><!-- /.container -->
 {% endblock %}
 
 {% block scripts %}
 {{ super() }}
 {{ pagedown.include_pagedown() }}
+<script>
+//給所以<pre> 加上'class='prettyprint'
+$(document).ready(function(){
+    for (){}
+    $(.).addClass("prettyprint");
+    PR.prettyPrint();
+});
+</script>
 {% endblock %}
