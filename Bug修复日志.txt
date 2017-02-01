@@ -78,6 +78,8 @@ $ sudo mkdir /home/deploy/mana2077
 $ sudo chmod 777 /home/deploy/mana2077
 将项目中github导入到服务器
 root@localhost:/home/deploy# git clone https://github.com/chidaobanjiu/mana2077
+之后用于更新项目内容使用 git fetch origin master
+git reset --hard
 创建venv环境，因为github项目是由windows上传，venv文件夹内是Scripts。而服务器创建的则是bin
 root@localhost:/home/deploy/mana2077# virtualenv venv
 source venv/bin/activate
@@ -104,3 +106,8 @@ pip install -r requirements.txt
         $('pre').addClass("prettyprint");
         PR.prettyPrint();
     });
+
+2017.1.30 
+
+markdown不支持图片显示，在model里post.body_html生成时加入<img>支持。以及attr属性，解决问题。
+另外解决了在手机等低分辨率设备下的显示问题。
