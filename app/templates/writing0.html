@@ -6,7 +6,8 @@
 
 {% block navbar %}
 <li><a href="{{ url_for('main.index') }}">主頁</a></li>
-<li class="active"><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+<li><a href="{{ url_for('main.blogs', category='记录') }}">记录</a></li>
+<li><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
 <li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
 <li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
 <li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
@@ -19,8 +20,8 @@
     </a>
     <ul class="dropdown-menu" role="menu">
         <li class="dropdown-header">编辑方式</li>
-        <li><a href="{{ url_for('main.write') }}">MarkDown(推薦)</a></li>
-        <li class="active"><a href="{{ url_for('main.write0') }}">CDEditor(開發中)</a></li>
+        <li><a href="{{ url_for('main.write') }}">MarkDown</a></li>
+        <li class="active"><a href="{{ url_for('main.write0') }}">CDEditor</a></li>
 
     </ul>
 </li>

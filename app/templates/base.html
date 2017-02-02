@@ -42,36 +42,13 @@
     <body {% block body_attribs %}{% endblock body_attribs %}>
     {% block body -%}
 
-        <!-- Fixed blue navbar -->
-        <nav class="navbar-default blog-masthead" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#blog-nav" aria-expanded="false" aria-controls="blog-masthead">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar-blue"></span>
-                    <span class="icon-bar-blue"></span>
-                  </button>
-                </div>
-                <div id="blog-nav" class="navbar-collapse collapse">
-                  <ul class="nav navbar-nav">
-                    <a class="blog-nav-item active" href="{{ url_for('main.index') }}">主頁</a>
-                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
-                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
-                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
-                    <a class="blog-nav-item" href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
-                    <a class="blog-nav-item" href="{{ url_for('main.write') }}">書寫</a>
-                  </ul>
-                </div>
-            </div>
-       </nav>
-
-
       <!-- Absolute silver navbar -->
-      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <nav class="navbar navbar-default" role="navigation">
         <div class="site-header">
             <h1>別处</h1>
             <p>「顧左右_立天地_度春秋」</p>
         </div>
+        <div id="navbar-fixed">
         <div class="container">
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -85,6 +62,7 @@
             <ul class="nav navbar-nav">
               {% block navbar -%}
               <li class="active"><a href="{{ url_for('main.index') }}">主頁</a></li>
+              <li><a href="{{ url_for('main.blogs', category='记录') }}">记录</a></li>
               <li><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
               <li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
               <li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
@@ -127,6 +105,7 @@
             </ul>
           </div><!--/.nav-collapse -->
         </div>
+      </div><!--/.navbar-fixed-->
       </nav>
 
     <!--messages in container-->
@@ -138,14 +117,14 @@
     {% endfor %}
     {% block pagecotent -%}
     <div id="content" class="container">
-        <!--blog header-->
+        <!--blog header
         {% block pageheader -%}
         <div class="blog-header">
             <div class="blog-title"><h4 class="blog-title">博客</h4></div>
             <div class="lead blog-description"><p class="lead blog-description">「人間歲月堂堂去 勸君快上青雲路」</p></div>
         </div>
         {%- endblock pageheader %}
-        <!--blog row for blogs-->
+        blog row for blogs-->
         {% block content -%}
         <div class="row">
           <div class="col-sm-8 blog-main">
@@ -173,25 +152,27 @@
             <p>Maybe someday I will got true words
             that really fit this <em>BOARD</em>.</p>
           </div>
-          <div class="sidebar-module">
-            <div class="bottom-line"><h4>標籤      </h4>
+          <div id="sidebar-fixed">
+            <div class="sidebar-module">
+              <div class="bottom-line"><h4>標籤      </h4>
+              </div>
+              <ol class="list-unstyled">
+                  {% for t in tags %}
+                  <li><a href=" url_for('')">{{ t.name }}</a></li>
+                  {% endfor %}
+              </ol>
             </div>
-            <ol class="list-unstyled">
-                {% for t in tags %}
-                <li><a href=" url_for('')">{{ t.name }}</a></li>
-                {% endfor %}
-            </ol>
-          </div>
-          <div class="sidebar-module">
-            <div class="bottom-line"><h4>Somewhere/else      </h4>
+            <div id="others" class="sidebar-module">
+              <div class="bottom-line"><h4>Somewhere/else      </h4>
+              </div>
+              <ol class="list-unstyled other">
+                <li><a href="http://twitter.com/" target="_blank"><i class="iconfont icon-twitter"></i>  Twitter</a></li>
+                <li><a href="http://github.com/chidaobanjiu" target="_blank"><i class="iconfont icon-github1"></i>  GitHub</a></li>
+                <li><a href="http://facebook.com/" target="_blank"><i class="iconfont icon-facebook"></i>  Facebook</a></li>
+                <li><a href="https://www.zhihu.com/people/jiang-bing-jie/" target="_blank"><i class="iconfont icon-zhihu"></i>  知乎</a></li>
+              </ol>
             </div>
-            <ol class="list-unstyled other">
-              <li><a href="http://twitter.com/" target="_blank"><i class="iconfont icon-twitter"></i>  Twitter</a></li>
-              <li><a href="http://github.com/chidaobanjiu" target="_blank"><i class="iconfont icon-github1"></i>  GitHub</a></li>
-              <li><a href="http://facebook.com/" target="_blank"><i class="iconfont icon-facebook"></i>  Facebook</a></li>
-              <li><a href="https://www.zhihu.com/people/jiang-bing-jie/" target="_blank"><i class="iconfont icon-zhihu"></i>  知乎</a></li>
-            </ol>
-          </div>
+          </div><!-- /#sidebar-fixed -->
         </div><!-- /.blog-sidebar -->
 
       </div><!-- /.row -->
@@ -220,12 +201,23 @@
     //绑定页面滚动事件
     $(document).bind('scroll',function(){
         var len=$(this).scrollTop()
-        if(len>=100){
+        if(len>=300){
             //显示回到顶部按钮
-            $('#to_top').show('fast');
+            $('#to_top').show(500);
         }else{
             //影藏回到顶部按钮
-            $('#to_top').hide();
+            $('#to_top').hide(500);
+        }
+    })
+    //顶部navbar-fixed
+    $(document).bind('scroll',function(){
+        var len=$(this).scrollTop()
+        if(len>=124){
+            //navbar-fixed保持在页面顶部
+            $('#navbar-fixed').addClass("navbar-fixed");
+        }else{
+            //navbar-fixed回归site-header下面
+            $('#navbar-fixed').removeClass("navbar-fixed");
         }
     })
     //绑定回到顶部按钮的点击事件

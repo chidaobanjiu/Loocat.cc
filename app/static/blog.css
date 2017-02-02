@@ -10,9 +10,9 @@ body {
     font-family: Georgia, "Times New Roman", Times, SimSun, serif;
     color: #333;
     background: #f2f4f1;
+    min-width: 400px;
 }
 body > div.container {
-    margin-top: 30px;
     min-height: 93%;
     height: auto;
     height: 100%;
@@ -77,37 +77,19 @@ div.bottom-line {
 /*
  * Override Bootstrap's default container.
  */
-
-
-@media (min-width: 1100px) {
-  .blog-container {
-    width: 970px;
-  }
-}
-
-@media (min-width: 1100px) {
+@media screen and (min-width: 1100px) {
+  .container{width: 970px}
   .blogs-header {
     width: 970px;
   }
 }
-
-
-@media screen and (min-width: 1200px) {
-.container{width: 970px}
-}
-/* 设置了浏览器宽度不大于1200px时 abc 显示auto宽度 */
-
-@media screen and (max-width: 1200px) {
-.container{width: 970px}
-}
-
 @media screen and (max-width: 1100px) {
-.container {width: 100%}
+  .container {width: 100%}
 }
 /* 设置了浏览器宽度不大于900px时 abc 显示auto宽度 */
 
 @media screen and (max-width: 500px) {
-.container {width: 100%}
+  .container {width: 100%}
 }
 
 
@@ -117,7 +99,6 @@ div.bottom-line {
 div.site-header {
     width: 100%;
     text-align: center;
-    background-image: url(static/pic/backpic.jpg);
     padding: 20px 0 0 0;
 }
 .site-header > h1 {
@@ -140,40 +121,29 @@ div.site-header {
  * Masthead for nav-silver-top
  */
 nav.navbar {
-    position:absolute;
     z-index: 3;
     background-color: #fff;
     width:100%;
     box-shadow: 0 2px 5px rgba(0,37,55,.08);
 }
-
+#navbar-fixed {
+    background-color: #fff;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,37,55,.08);
+    border-bottom: 1px solid #eee;
+}
 
 /*
  * Masthead for nav blue fixed
  */
 
-.blog-masthead {
+.navbar-fixed {
   position: fixed;
   z-index: 2;
   top: 0;
-  width:100%;
-  background-color: #428bca;
-  border-bottom: 1px solid #bbb;
-  box-shadow: 0 2px 5px rgba(0,37,55,.08);
-  text-align: center;
-}
-.icon-bar-blue {
   background-color: #fff;
-  display: block;
-  width: 20px;
-  height: 2px;
-  margin-top: 4px;
-  border-radius: 1px;
-}
-
-/* Active state gets a caret at the bottom */
-a.active {
-  color: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0,37,55,.08);
 }
 
 
@@ -205,7 +175,6 @@ a.active {
   left: 30px;
   bottom: 18px;
   background-color: #428bca;
-  z-index: 4;
 }
 
 /*
@@ -373,7 +342,7 @@ li.blog-post {
 /* blogs.html里的博客样式 */
 div.blog-container {
     width: auto;
-    margin: 30px 30px 5% 30px;
+    margin: 15px 30px 5% 30px;
     text-align: center;
     min-height: 93%;
     height: auto;
@@ -498,7 +467,7 @@ div.writer {
     height: auto;
     border-radius: 4px;
     box-shadow: 0 2px 5px rgba(0,37,55,.08);
-    z-index: 2;
+    z-index: 4;
 }
 .form {
     height: 100%;
@@ -598,16 +567,4 @@ div.CodeMirror,
     margin-left: 15px;
     margin-right: 15px;
   }
-}
-
-@media (max-width: 500px) {
-  .blogs-header {
-    width: 100%;
-    margin: auto;
-  }
-  .blog-post-title {font-size: 20px}
-  .blog-post-meta {font-size: 12px}
-  .blog-post-body {font-size: 12px}
-  .blog-post-footer {font-size: 10px}
-  .blog-post-body > blockquote > p {font-size: 10px}
 }

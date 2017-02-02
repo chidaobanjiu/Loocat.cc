@@ -259,7 +259,7 @@ class Category(db.Model):
             'Flask': False,
             'JavaScript': False,
             u'记录': False,
-            u'Blogs': True
+            'Blogs': True
         }
         for c in cats:
             cat = Category.query.filter_by(name=c).first()

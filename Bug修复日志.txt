@@ -130,3 +130,4 @@ markdown不支持图片显示，在model里post.body_html生成时加入<img>支持。以及attr属性
 2017.2.2
 
 CKEditor调试成功，navbar改版
+在navbar中添加分类（categories）引导去掉「文章」项。

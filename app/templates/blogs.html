@@ -6,7 +6,8 @@
 
 {% block navbar %}
 <li><a href="{{ url_for('main.index') }}">主頁</a></li>
-<li class="active"><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
+<li><a href="{{ url_for('main.blogs', category='记录') }}">记录</a></li>
+<li><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
 <li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
 <li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
 <li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
@@ -14,12 +15,12 @@
 
 {% block pagecotent %}
 <div id="content" class="blog-container">
-    <!--blog header-->
+    <!--blog header
     <div class="blog-header blogs-header">
         <div class="blog-title"><h3 class="blog-title">文章</h3></div>
         <div class="lead blog-description blogs-description"><p class="lead blog-description blogs-description">「衆鳥高飛盡 孤云獨去閑」</p></div>
     </div>
-    <!--blog row for blogs-->
+    blog row for blogs-->
     <div class="row">
         <div class="page-content">
           <!--Blogs-->
