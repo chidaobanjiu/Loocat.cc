@@ -14,7 +14,7 @@ body {
     font-family: Georgia, "Times New Roman", Times, SimSun, serif;
     color: #333;
     background: #f2f4f1;
-    min-width: 350px;
+    min-width: 375px;
 }
 body > div.container {
     min-height: 93%;
@@ -85,12 +85,12 @@ div.bottom-line {
   .container{width: 970px}
 }
 @media screen and (max-width: 1100px) {
-  .container {width: 100%}
+  .container {width: auto}
 }
 /* 设置了浏览器宽度不大于900px时 abc 显示auto宽度 */
 
 @media screen and (max-width: 500px) {
-  .container {width: 100%}
+  .container {width: auto}
 }
 
 
@@ -373,7 +373,7 @@ li.blog-post {
 /* blogs.html里的博客样式 */
 div.blog-container {
     width: auto;
-    margin: 15px 30px 5% 30px;
+    margin: 15px 30px 2% 30px;
     text-align: center;
     min-height: 93%;
     height: auto;
