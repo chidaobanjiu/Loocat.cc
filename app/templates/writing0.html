@@ -4,14 +4,6 @@
 
 {% block title %}CKEditor|2077{% endblock %}
 
-{% block navbar %}
-<li><a href="{{ url_for('main.index') }}">主頁</a></li>
-<li><a href="{{ url_for('main.blogs', category='记录') }}">记录</a></li>
-<li><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
-<li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
-<li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
-<li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
-{% endblock %}
 
 {% block navbarwriter %}
 <li class="dropdown active">

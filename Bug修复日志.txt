@@ -131,3 +131,14 @@ markdown不支持图片显示，在model里post.body_html生成时加入<img>支持。以及attr属性
 
 CKEditor调试成功，navbar改版
 在navbar中添加分类（categories）引导去掉「文章」项。
+利用JQuery的方式完成navbar-fixed样式，并优化iPhone端显示效果。
+
+2017.2.3
+
+修正footer显示问题。
+改善navbar模板代码：
+改善是由于发现了<a>的href链接可以有两种定义方式，一是用{{}}变量的方法套入url_for('views')函数，views为路由中定义的函数名。
+方法二是不使用{{}}变量，直接输入间接地址'/blogs/{{ t.name }}'，这样就可以在链接的变量部分套入变量。减少代码重复。
+解决Tag链接问题。
+在之前解决navbar链接问题的基础上，在路由中定义tag筛选方法。之前尝试直接筛选出tag后，返回tag.posts。但是返回的是一个列表，
+query.order_by无法利用。所以使用Post.query.filter(Post.tags.contains(tag))的方法筛选返回数据，交给pagination。

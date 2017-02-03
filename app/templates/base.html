@@ -61,12 +61,10 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
               {% block navbar -%}
-              <li class="active"><a href="{{ url_for('main.index') }}">主頁</a></li>
-              <li><a href="{{ url_for('main.blogs', category='记录') }}">记录</a></li>
-              <li><a href="{{ url_for('main.blogs', category='Blogs') }}">Blogs</a></li>
-              <li><a href="{{ url_for('main.blogs', category='Python') }}">Python</a></li>
-              <li><a href="{{ url_for('main.blogs', category='JavaScript') }}">JavaScript</a></li>
-              <li><a href="{{ url_for('main.blogs', category='Flask') }}">Flask</a></li>
+              <li><a href="{{ url_for('main.index') }}">主頁</a></li>
+              {% for cat in Category %}
+              <li><a href="/blogs/{{ cat.name }}">{{ cat.name }}</a></li>
+              {% endfor %}
               {%- endblock navbar %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -146,19 +144,12 @@
 
         <!-- .blog-sidebar/begin -->
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
-          <div class="sidebar-module sidebar-module-inset">
-            <h4>BOARD</h4>
-            <p class="about"> <em>Waiting</em> for something matters. </p>
-            <p>Maybe someday I will got true words
-            that really fit this <em>BOARD</em>.</p>
-          </div>
-          <div id="sidebar-fixed">
             <div class="sidebar-module">
               <div class="bottom-line"><h4>標籤      </h4>
               </div>
               <ol class="list-unstyled">
                   {% for t in tags %}
-                  <li><a href=" url_for('')">{{ t.name }}</a></li>
+                  <li><a href="/blogtag/{{ t.name }}">{{ t.name }}</a></li>
                   {% endfor %}
               </ol>
             </div>
@@ -172,7 +163,6 @@
                 <li><a href="https://www.zhihu.com/people/jiang-bing-jie/" target="_blank"><i class="iconfont icon-zhihu"></i>  知乎</a></li>
               </ol>
             </div>
-          </div><!-- /#sidebar-fixed -->
         </div><!-- /.blog-sidebar -->
 
       </div><!-- /.row -->
@@ -220,6 +210,7 @@
             $('#navbar-fixed').removeClass("navbar-fixed");
         }
     })
+
     //绑定回到顶部按钮的点击事件
     $('#to_top').click(function(){
         //动画效果，平滑滚动回到顶部
@@ -235,20 +226,6 @@
     {{ moment.include_moment() }}
     {%- endblock scripts %}
 
-    <div id="global-zeroclipboard-html-bridge" class="global-zeroclipboard-container" title="" style="position: absolute; left: 0px; top: -9999px; width: 15px; height: 15px; z-index: 999999999;" data-original-title="Copy to clipboard">
-        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="global-zeroclipboard-flash-bridge" width="100%" height="100%">
-            <param name="movie" value="/assets/flash/ZeroClipboard.swf?noCache=1483345743229">
-            <param name="allowScriptAccess" value="sameDomain">
-            <param name="scale" value="exactfit">
-            <param name="loop" value="false">
-            <param name="menu" value="false">
-            <param name="quality" value="best">
-            <param name="bgcolor" value="#ffffff">
-            <param name="wmode" value="transparent">
-            <param name="flashvars" value="trustedOrigins=v3.bootcss.com%2C%2F%2Fv3.bootcss.com%2Chttp%3A%2F%2Fv3.bootcss.com">
-            <embed src="/assets/flash/ZeroClipboard.swf?noCache=1483345743229" loop="false" menu="false" quality="best" bgcolor="#ffffff" width="100%" height="100%" name="global-zeroclipboard-flash-bridge" allowscriptaccess="sameDomain" allowfullscreen="false" type="application/x-shockwave-flash" wmode="transparent" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="trustedOrigins=v3.bootcss.com%2C%2F%2Fv3.bootcss.com%2Chttp%3A%2F%2Fv3.bootcss.com" scale="exactfit">
-        </object>
-    </div>
     {%- endblock body %}
     {% block simplemde -%}
     {%- endblock simplemde %}

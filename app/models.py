@@ -281,11 +281,13 @@ class Post(db.Model):
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
     tags = db.relationship('Tag',
                            secondary='post_tag_ref',
-                           backref='posts')
+                           backref=db.backref('posts', lazy='dynamic'),
+                           lazy='dynamic')
 
+    """                     
     def is_tagged_by(self, t):
         return t in self.tags
-    """
+
     def tagging(self, t):
         if not self.is_tagged_by(t):
             t = Tagging(tag=t, post=self)

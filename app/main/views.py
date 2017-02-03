@@ -42,9 +42,24 @@ def blogs(category):
         error_out=False)
     posts = pagination.items
     tags = Tag.query.all()
-    return render_template('blogs.html', posts=posts, tags=tags,
+    categories = Category.query.all()
+    return render_template('blogs.html', posts=posts, tags=tags, Category=categories,
                            pagination=pagination, user=current_user, category=category)
 
+
+@main.route('/blogtag/<tag>', methods=['GET', 'POST'])
+def blogtag(tag):
+    page = request.args.get('page', 1, type=int)
+    t = Tag.query.filter_by(name=tag).first_or_404()
+    query = Post.query.filter(Post.tags.contains(t))
+    pagination = query.order_by(Post.timestamp.desc()).paginate(
+        page, per_page=current_app.config['MANA_POSTS_PER_PAGE'],
+        error_out=False)
+    posts = pagination.items
+    tags = Tag.query.all()
+    categories = Category.query.all()
+    return render_template('blogs.html', posts=posts, tags=tags,
+                           pagination=pagination, user=current_user, Category=categories)
 
 
 @main.route('/', methods=['GET'])
@@ -56,8 +71,9 @@ def index():
         error_out=False)
     posts = pagination.items
     tags = Tag.query.all()
+    categories = Category.query.all()
     return render_template('base.html', posts=posts, tags=tags,
-                           pagination=pagination, user=current_user)
+                           pagination=pagination, user=current_user, Category=categories)
 
 
 @main.route('/writing_MarkDown', methods=['GET', 'POST'])
@@ -73,8 +89,9 @@ def write():
         post.category = Category.query.get(form.category.data)
         db.session.add(post)
         return redirect(url_for('.index'))
+    categories = Category.query.all()
     return render_template('writing.html', form=form,
-                           user=current_user)
+                           user=current_user, Category=categories)
 
 
 @main.route('/writing_CKEditor', methods=['GET', 'POST'])
@@ -90,8 +107,9 @@ def write0():
         post.category = Category.query.get(form.category.data)
         db.session.add(post)
         return redirect(url_for('.index'))
+    categories = Category.query.all()
     return render_template('writing0.html', form=form,
-                           user=current_user)
+                           user=current_user, Category=categories)
 
 
 @main.route('/user/<username>')
