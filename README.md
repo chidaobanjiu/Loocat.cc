@@ -3,7 +3,7 @@ MANA2077
 
 This repository contains the source code for my *personal-blog* **[www.mana2077.com](http://www.mana2077.com)**.
 
-[中文说明]
+[中文说明](https://github.com/chidaobanjiu/mana2077/wiki/MANA2077.com-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
 #### Features
 
@@ -28,7 +28,6 @@ This repository contains the source code for my *personal-blog* **[www.mana2077.
 3. Domain on [namesilo.com]
 
 
-[中文说明]:        https://github.com/chidaobanjiu/mana2077/wiki/MANA2077.com-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E
 [Flask]:         http://flask.pocoo.org/
 [Bootstrap]:     http://getbootstrap.com/
 [jQuery]:        https://jquery.com/
