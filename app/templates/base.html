@@ -2,7 +2,6 @@
 
 {% block doc -%}
 <!DOCTYPE html>
-<!-- changed from url=(0036)http://v3.bootcss.com/examples/blog/ -->
 <html lang="en">
 {%- block html %}
     <head {% block html_attribs %}{% endblock html_attribs %}>
@@ -10,8 +9,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="personal-blog">
+        <meta name="author" content="chidaobanjiu">
         {%- block metas %}
         {%- endblock metas %}
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon2.ico') }}" type="image/x-icon">
@@ -180,7 +179,6 @@
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='docs.min.js.下载') }}"></script>
