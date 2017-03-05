@@ -6,7 +6,7 @@
 {%- block html %}
     <head {% block html_attribs %}{% endblock html_attribs %}>
     {%- block head %}
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="personal-blog">
@@ -19,7 +19,7 @@
         <title>{% block title %} Welcome to 2077 {% endblock title %}</title>
 
     <!-- Bootstrap core CSS -->
-        <link href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
 
     <!-- ali iconfont -->
         <link rel="stylesheet" href="http://at.alicdn.com/t/font_8eg7pdoydd6ajor.css">
@@ -181,11 +181,11 @@
     ================================================== -->
     <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script rel="stylesheet" type="text/js" href="{{ url_for('static', filename='docs.min.js.下载') }}"></script>
+    <script src="{{ url_for('static', filename='docs.min.js.下载') }}"></script>
     <!-- The google code-prettidy css and js -->
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 
-    <script type="text/javascript">
+    <script>
     //绑定页面滚动事件
     $(document).bind('scroll',function(){
         var len=$(this).scrollTop()
