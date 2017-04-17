@@ -1,5 +1,4 @@
 import os
-from flask import Flask
 from app import create_app
 
 application = create_app(os.getenv('MANA_CONFIG') or 'default')
