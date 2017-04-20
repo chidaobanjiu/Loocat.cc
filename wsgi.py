@@ -1,7 +1,11 @@
-import os
-from app import create_app
+#!/usr/bin/env python3
 
-application = create_app(os.getenv('MANA_CONFIG') or 'default')
+import sys
+from os.path import abspath
+from os.path import dirname
+import app
 
-if __name__=='__main__':
-    application.run()
+
+sys.path.insert(0, abspath(dirname(__file__)))
+application = app.app
+

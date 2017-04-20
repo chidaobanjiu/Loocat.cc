@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> 个人简历 | Benjamin Jiang </title>
+    <meta name="author" content="Benjamin Jiang">
+    <meta name="description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:title" content="Loocat">
+    <meta property="og:url" content="http://loocat.cc">
+    <meta property="og:site_name" content="Loocat">
+    <meta property="og:description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:image" content="https://unsplash.it/2000/1200?image=1032">
+    <meta property="og:type" content="blog">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description"
+          content="Trophy is a blog theme for Jekyll by Thomas Vaeth in Seattle, Washington.">
+    <meta name="twitter:title" content="Archive | Trophy">
+    <meta name="twitter:url" content="http://thomasvaeth.com/trophy-jekyll/archive/">
+    <meta name="twitter:site" content="Trophy">
+    <meta name="twitter:creator" content="@thomasvaeth">
+    <meta name="twitter:domain" content="http://thomasvaeth.com">
+    <meta property="twitter:image" content="https://unsplash.it/2000/1200?image=1058">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    <link rel="alternate" type="application/rss+xml" title="Trophy"
+          href="http://thomasvaeth.com/trophy-jekyll/feed.xml">
+    <link rel="canonical" href="http://thomasvaeth.com/trophy-jekyll/archive/">
+
+
+</head>
+
+
+<body>
+
+<main>
+    <section class="archives" itemscope itemtype="http://schema.org/Blog">
+        <a class="nav nav--black" href="{{ url_for('.index') }}">
+            <i class="fa fa-lg fa-arrow-left"></i>
+            <span>Back to 別處</span>
+        </a>
+        <header class="archives__header">
+            <span>个人简介</span>
+        </header>
+        <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+            <a class="preview__link"  itemprop="url">
+                <h2 class="preview__header" itemprop="name">个人简介</h2>
+                <p class="preview__excerpt" itemprop="description">个人简介</p>
+                <span class="preview__more">Read More</span>
+            </a>
+        </li>
+        <div class="pagination">
+            <a>to be continued</a>
+        </div>
+        <footer class="section-padding--sm footer">
+            <a class="footer__archive">很高兴认识你</a>
+            <ul class="footer__social">
+                <li><a class="footer__archive" href=" {{ url_for('.profile') }} ">Contact me</a></li>
+                <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+                <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a>
+                </li>
+            </ul>
+        </footer>
+    </section>
+
+</main>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script type="text/javascript" src="/trophy-jekyll/assets/js/app.js"></script>
+
+
+</body>
+
+</html>
+

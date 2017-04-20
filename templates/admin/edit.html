@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> {{ cat.title }} | Editing </title>
+    <meta name="author" content="Benjamin Jiang">
+    <meta name="description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:title" content="Loocat">
+    <meta property="og:url" content="http://loocat.cc">
+    <meta property="og:site_name" content="Loocat">
+    <meta property="og:description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:image" content="https://unsplash.it/2000/1200?image=1032">
+    <meta property="og:type" content="blog">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description"
+          content="Trophy is a blog theme for Jekyll by Thomas Vaeth in Seattle, Washington.">
+    <meta name="twitter:title" content="Trophy">
+    <meta name="twitter:url" content="http://thomasvaeth.com/trophy-jekyll/">
+    <meta name="twitter:site" content="Trophy">
+    <meta name="twitter:creator" content="@thomasvaeth">
+    <meta name="twitter:domain" content="http://thomasvaeth.com">
+    <meta property="twitter:image" content="https://unsplash.it/2000/1200?image=1058">
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+</head>
+
+
+  <body>
+
+    <main>
+      <article itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="section-padding--lg mast rellax" data-rellax-speed="-4">
+    <a class="nav nav--white" href="{{ url_for('.index')}}">
+      <i class="fa fa-lg fa-arrow-left"></i>
+      <span>Back to 管理界面</span>
+    </a>
+    <figure class="absolute-bg mast__img" style="background-image: url('https://unsplash.it/2000/1200?image=998');"></figure>
+    <div class="mast__container">
+      <span><time datetime="AAA 1 2077" itemprop="datePublished">AAA 1 2077</time></span>
+      <h1 itemprop="name headline">编辑 {{ cat.title }}</h1>
+
+        <span>Abstract:
+
+            <a class="nav--white">{{ cat.abstract }}</a>
+
+        </span>
+
+      <span></span>
+    </div>
+  </header>
+
+  <section class="section-padding bg-grey" itemprop="articleBody">
+    <div class="post">
+
+
+      <form method="POST" action={{ url_for(".change", cat_id=cat.id, token=token) }} >
+          <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">Title</div>
+                <input type="text" class="form-control" id="inputEmail3" name="title" placeholder="{{ cat.title }}" value="{{ cat.title }}" >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">Back-img</div>
+                <input type="text" class="form-control" id="inputPassword3" name="image" placeholder="{{ cat.image }}" value="{{ cat.image }}" >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-addon">Abstract</div>
+                <input type="text" class="form-control" id="inputPassword2" name="abstract" placeholder="{{ cat.abstract }}" value="{{ cat.abstract }}" >
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <button type="submit" class="btn btn-default">提交更改</button>
+            </div>
+          </div>
+        </form>
+    </div>
+  </section>
+
+  <section class="profile">
+    <div class="profile__card">
+      <div class="profile__img">
+        <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=447');"></figure>
+      </div>
+      <div class="profile__container">
+        <p>自我介绍</p>
+
+          <ul class="profile__social">
+
+              <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+              <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a></li>
+
+          </ul>
+
+      </div>
+    </div>
+  </section>
+
+</article>
+
+
+  <section class="next">
+    <a class="next__link"  style="background-image: url('https://unsplash.it/2000/1200?image=855');">
+      <div class="next__container">
+        <span>Editing Category</span>
+        <h2>{{ cat.title }}</h2>
+      </div>
+    </a>
+  </section>
+
+
+    </main>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script type="text/javascript" src="/static/js/app.js"></script>
+
+
+  </body>
+
+</html>

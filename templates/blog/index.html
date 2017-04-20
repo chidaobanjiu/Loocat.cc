@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> Blog | Loocat </title>
+    <meta name="author" content="Benjamin Jiang">
+    <meta name="description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:title" content="Loocat">
+    <meta property="og:url" content="http://loocat.cc">
+    <meta property="og:site_name" content="Loocat">
+    <meta property="og:description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:image" content="https://unsplash.it/2000/1200?image=1032">
+    <meta property="og:type" content="blog">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+
+</head>
+
+
+<body>
+
+<main>
+    <section class="previews">
+        <div>
+            {% if cat %}
+            <a class="nav nav--white" href="{{ url_for('.index')}}">
+              <i class="fa fa-lg fa-arrow-left"></i>
+              <span>Back to Blog</span>
+            </a>
+
+            <figure class="absolute-bg preview__img"
+                    style="background-image: url('{{ cat.image }}');"></figure>
+
+            {% else %}
+
+            {% for blog in blogs %}
+            <figure class="absolute-bg preview__img"
+                    style="background-image: url('{{ blog.image }}');"></figure>
+            {% endfor %}
+
+            {% endif %}
+            <div class="previews__container">
+                {% if cat %}
+                <span>{{ cat.abstract }}</span>
+                <h1>{{ cat.title }}</h1>
+                {% else %}
+                <span>你不曾到过的────────</span>
+                <h1>別處</h1>
+                {% endif %}
+            </div>
+        </div>
+
+        <div>
+            <header>
+                <ul class="tabs">
+                    {% if cat %}
+                    <li class="tabs__item">{{ cat.title }}</li>
+                    {% else %}
+                    <li class="tabs__item">文章小築</li>
+                    {% endif %}
+                    <li class="tabs__item">分類卡片</li>
+                    <li class="tabs__item">個人項目</li>
+                </ul>
+            </header>
+
+            <div class="tab">
+                <ul itemscope itemtype="http://schema.org/Blog">
+
+                    {% if cat %}
+                    {% for blog in blogs %}
+                    <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+                        <a class="preview__link" href="{{ url_for('.view', blog_id=blog.id )}}" itemprop="url" >
+                        <span class="preview__date" itemprop="datePublished" datetime="{{ blog.created_time | datetime }}">{{ blog.created_time | datetime }}</span>
+                        <h2 class="preview__header" itemprop="name">{{ blog.title }}</h2>
+                        <p class="preview__excerpt" itemprop="description">{{ blog.content | abstract }}</p>
+                        <span class="preview__more">Read More</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    {% for blog in blogs %}
+                    <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
+                        <a class="preview__link" href="{{ url_for('.view', blog_id=blog.id )}}" itemprop="url" >
+                        <span class="preview__date" itemprop="datePublished" datetime="{{ blog.created_time | datetime}}">{{ blog.created_time | datetime}}</span>
+                        <h2 class="preview__header" itemprop="name">{{ blog.title }}</h2>
+                        <p class="preview__excerpt" itemprop="description">{{ blog.content | abstract }}</p>
+                        <span class="preview__more">Read More</span>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% endif %}
+                </ul>
+
+
+                <div class="pagination">
+                    {% if prev==0 %}
+                        <a href="{{ url_for('.index') }}">Prev</a>
+                    {% endif %}
+                    {% if prev %}
+                        <a href="{{ url_for('.start', start_id=prev) }}">Prev</a>
+                    {% endif %}
+                    {% if next %}
+                        <a href="{{ url_for('.start', start_id=next) }}">Next</a>
+                    {% endif %}
+                </div>
+
+
+                <footer class="section-padding--sm footer">
+                    <a class="footer__archive" href=" {{ url_for('.archive') }} ">Archive</a>
+                    <ul class="footer__social">
+                        <li><a class="footer__archive" href=" {{ url_for('.profile') }} ">Contact me:</a></li>
+                        <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+                        <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a>
+                        </li>
+
+                    </ul>
+                </footer>
+
+            </div>
+
+            <div class="tab">
+                <ul class="cards">
+
+                    {% if user %}
+                    <li class="card">
+                        <a class="card__link" href="{{ url_for('.new') }}">
+                            <div class="card__img">
+                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=1010');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">写文章</h2>
+                                <p class="card__count">人間歲月堂堂去|勸君快上青雲路</p>
+                                <span class="card__more">Writing</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="card">
+                        <a class="card__link" href="{{ url_for('admin.index') }}">
+                            <div class="card__img">
+                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=1002');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">管理界面</h2>
+                                <p class="card__count">细致精确</p>
+                                <span class="card__more">Admin</span>
+                            </div>
+                        </a>
+                    </li>
+                    {% endif %}
+
+
+                    {% for cat in cats %}
+                    <li class="card">
+                        <a class="card__link" href="{{ url_for('.blogsincat', category_id=cat.id) }}">
+                            <div class="card__img">
+                                <figure class="absolute-bg" style="background-image: url('{{ cat.image }}');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">{{ cat.title }}</h2>
+                                <p class="card__count">共 {{ cat.cached_blogs() | count }} 篇文章</p>
+                                <span class="card__more">View All</span>
+                            </div>
+                        </a>
+                    </li>
+                    {% endfor%}
+
+                </ul>
+
+                <footer class="section-padding--sm footer">
+                    <a class="footer__archive" href=" {{ url_for('.archive') }} ">Archive</a>
+                    <ul class="footer__social">
+                        <li><a class="footer__archive" href=" {{ url_for('.profile') }} ">Contact me</a></li>
+                        <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+                        <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a>
+                        </li>
+                    </ul>
+                </footer>
+
+            </div>
+
+            <div class="tab">
+
+                <ul class="cards">
+
+                    <li class="card">
+                        <a class="card__link" href="{{ url_for('.profile') }}">
+                            <div class="card__img">
+                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=486');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">个人简历</h2>
+                                <p class="card__count">感谢您的关注</p>
+                                <span class="card__more">Look for work...</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="card">
+                        <a class="card__link" href="{{ url_for('map.index') }}">
+                            <div class="card__img">
+                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=442');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">基於高德的二手房市場展示</h2>
+                                <p class="card__count">上車嗎，要走了-_-</p>
+                                <span class="card__more">Powered by 高德<br>Data from 链家</span>
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <footer class="section-padding--sm footer">
+                    <a class="footer__archive" href=" {{ url_for('.archive') }} ">Archive</a>
+                    <ul class="footer__social">
+                        <li><a class="footer__archive" href=" {{ url_for('.profile') }} ">Contact me</a></li>
+                        <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+                        <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a>
+                        </li>
+                    </ul>
+                </footer>
+
+            </div>
+        </div>
+
+    </section>
+
+</main>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script type="text/javascript" src="/static/js/app.js"></script>
+
+
+</body>
+
+</html>

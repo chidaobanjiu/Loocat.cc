@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> Loocat </title>
+    <meta name="author" content="Benjamin Jiang">
+    <meta name="description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:title" content="Loocat">
+    <meta property="og:url" content="http://loocat.cc">
+    <meta property="og:site_name" content="Loocat">
+    <meta property="og:description" content="Loocat is a personal blog  by Benjamin Jiang in Beijing, China.">
+    <meta property="og:image" content="https://unsplash.it/2000/1200?image=1032">
+    <meta property="og:type" content="blog">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:description"
+          content="Trophy is a blog theme for Jekyll by Thomas Vaeth in Seattle, Washington.">
+    <meta name="twitter:title" content="Trophy">
+    <meta name="twitter:url" content="http://thomasvaeth.com/trophy-jekyll/">
+    <meta name="twitter:site" content="Trophy">
+    <meta name="twitter:creator" content="@thomasvaeth">
+    <meta name="twitter:domain" content="http://thomasvaeth.com">
+    <meta property="twitter:image" content="https://unsplash.it/2000/1200?image=1058">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    <link rel="alternate" type="application/rss+xml" title="Trophy" href="http://thomasvaeth.com/trophy-jekyll/feed.xml">
+    <link rel="canonical" href="http://thomasvaeth.com/trophy-jekyll/">
+
+
+</head>
+
+
+<body>
+
+<main>
+    <section class="previews">
+        <div>
+            <figure class="absolute-bg preview__img"
+                    style="background-image: url('https://unsplash.it/2000/1200?image=1069');"></figure>
+
+            <figure class="absolute-bg preview__img"
+                    style="background-image: url('https://unsplash.it/2000/1200?image=338');"></figure>
+
+            <div class="previews__container">
+                <span>你不曾到过的────────</span>
+                <h1>別處</h1>
+            </div>
+
+        </div>
+
+        <div>
+            <header>
+                <ul class="tabs">
+                    <li class="tabs__item">登录</li>
+                    <li class="tabs__item">注册</li>
+                </ul>
+            </header>
+
+            <div class="tab">
+                <div class="login">
+                        <form method="post" action="{{ url_for('.login') }}">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input name="username" placeholder="用户名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input name="password" placeholder="密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                  <button type="submit">
+                                      <a class="footer__archive">Login</a>
+                                  </button>
+                                </div>
+                              </div>
+                        </form>
+                </div>
+
+                <div class="pagination">
+                        <a>A new world to be found</a>
+                </div>
+
+                <footer class="section-padding--sm footer">
+                    <a class="footer__archive" href=" {{ url_for('.visit') }} ">游客身份登录</a>
+                    <ul class="footer__social">
+                        <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+
+                        <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a>
+                        </li>
+
+                    </ul>
+                </footer>
+
+            </div>
+
+            <div class="tab">
+                <div class="login">
+                    <form method="post" action="{{ url_for('.register') }}">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input name="username" placeholder="用户名">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input name="password" placeholder="密码">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <button type="submit">
+                                    <a class="footer__archive">Register</a>
+                                    </button>
+                                </div>
+                              </div>
+                        </form>
+                    </div>
+
+                <div class="pagination">
+                        <a>A new world to be found</a>
+                </div>
+
+                <footer class="section-padding--sm footer">
+                    <a class="footer__archive" href=" {{ url_for('blog.index') }} ">游客身份登录</a>
+                    <ul class="footer__social">
+                        <li><a class="fa fa-lg fa-envelope-o" href="mailto:jbjsnow@outlook.com"></a></li>
+
+                        <li><a class="fa fa-lg fa-github" href="https://github.com/chidaobanjiu" target="_blank"></a>
+                        </li>
+
+                    </ul>
+                </footer>
+
+            </div>
+
+    </section>
+
+</main>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script type="text/javascript" src="/static/js/app.js"></script>
+
+
+</body>
+
+</html>

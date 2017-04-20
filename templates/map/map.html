@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://cdn.bootcss.com/jquery/3.2.0/jquery.js"></script>
+    <link rel="stylesheet" href="/static/css/map.css">
+    <title>北京链家二手价格分布</title>
+  </head>
+  <body>
+
+    <div id="container" tabindex="0"></div>
+        <div id="tip">
+            <a id="back" href="{{ url_for('.index') }}" style="color: white;text-decoration:none;">点击回到市区视野</a>
+            <input type="text" id="keyword" name="keyword" value="点击地区显示具体信息，鼠标置于上方显示价格" onfocus="this.value=''"/>
+            <a href="{{ url_for('blog.index') }}" style="color: white;text-decoration:none;">回到博客</a>
+        </div>
+    <script src="/static/js/my_data.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=fda62f2f43c6ac4da83cf8bd5bc26bff"></script>
+    <script type="text/javascript">
+        var map, district, polygons = [], citycode, marker=[], windowsArr=[];
+        var diss = ['东城区', '西城区', '朝阳区', '门头沟区', '房山区', '顺义区', '海淀区',
+                    '大兴区', '石景山区', '丰台区', '昌平区', '通州区', '亦庄']
+        var map = new AMap.Map('container',{
+            resizeEnable: true,
+            zoom: 10,
+            zooms: [7, 20],
+            center: [116.230983, 39.547629],
+            keyboardEnable: false,
+            mapStyle: 'fresh',
+        })
+
+        AMap.plugin(['AMap.ToolBar','AMap.Scale','AMap.Autocomplete','AMap.PlaceSearch'],function(){
+          map.addControl(new AMap.ToolBar());
+          map.addControl(new AMap.Scale());
+          var autoOptions = {
+              city: "北京", //城市，默认全国
+              input: "keyword"//使用联想输入的input的id
+            };
+            autocomplete= new AMap.Autocomplete(autoOptions);
+            var placeSearch = new AMap.PlaceSearch({
+                  city:'北京',
+                  map:map
+            })
+            AMap.event.addListener(autocomplete, "select", function(e){
+               //TODO 针对选中的poi实现自己的功能
+               placeSearch.search(e.poi.name)
+            });
+          });
+
+
+
+        var createMarker = function(data,hide) {
+            var div = document.createElement('div');
+            div.className = 'circle' + ' ' + data.name;
+            div.style.backgroundColor = hide?'#666': '#3aa';
+            div.innerHTML = data.name;
+            if (data.count === 0 || data.region){
+                var mark = new AMap.Marker({
+                    content: div,
+                    title: '没有房屋信息',
+                    zoom: 20,
+                    position: data.center.split(','),
+                    offset: new AMap.Pixel(-5, 5),
+                    animation: "AMAP_ANIMATION_DROP"
+                })
+            } else if (data.houses){
+                var houses = {}
+                var title=data.name + '<span style="font-size:14px;color:#F00;">均价：' + data.count + '</span>',
+                content=[];
+                for (var i = 0 ; i < data.houses.length; i += 1){
+                    var house=data.houses[i]
+                    content.push('<a title="点击进入链家" href="' + house.link + '" target="_blank"><img src="https://raw.githubusercontent.com/chidaobanjiu/Markdown-Pics/master/lianjiaershou.jpg"></a><h3>' + house.name + '</h3>');
+                    content.push('<span style="color:red;">'+house.unit_price+'</span>');
+                    content.push('<span style="color:red;">总价' + house.total_price + '</span>');
+                    content.push('<span>地址：'+house.district+'-'+house.region+'<br><span style="color:blue;">'+house.subway+'</span></span>');
+                    content.push('<span>热门：' + house.hot + '<br><span style="color:green;">' + house.haskey + '</span><br><span style="color:green;">' + house.taxfree+'</span></span>');
+                }
+                var mark = new AMap.Marker({
+                    content: div,
+                    title: '均价' + data.count/10000 + '万',
+                    zoom: 20,
+                    position: data.center.split(','),
+                    offset: new AMap.Pixel(-5, 5),
+                    animation: "AMAP_ANIMATION_DROP"
+                })
+                mark.source = [title, content]
+                mark.on('click', markerClick);
+                // mark.on('click', markerClick);
+            } else {
+                var mark = new AMap.Marker({
+                    content: div,
+                    title: '均价' + data.count/10000 + '万',
+                    zoom: 20,
+                    position: data.center.split(','),
+                    offset: new AMap.Pixel(-5, 5),
+                    animation: "AMAP_ANIMATION_DROP",
+                })
+            }
+            var markerc = new AMap.Circle({
+                center: data.center.split(','),
+                bubble: true,
+                radius: data.count / 8,
+                strokeColor: "#ace", //线颜色
+                strokeOpacity: 0.5, //线透明度
+                strokeWeight: 1, //线粗细度
+                fillColor: "#8c5", //填充颜色
+                fillOpacity: 0.2,//填充透明度
+            });
+
+            mark.c = markerc
+            mark.name = data.name;
+            mark.subMarkers = [];
+            // if($.inArray(data.name,diss)>=0){
+            //     map.setCenter(marker.getPosition());
+            // }
+            if(!hide){
+                //markerc.setMap(map);
+                mark.setMap(map);
+                mark.c.setMap(map);
+            }
+            if(data.sub_districts&&data.sub_districts.length){
+                mark.type = 'ds'
+                for(var i = 0 ; i < data.sub_districts.length; i += 1){
+                    mark.subMarkers.push(createMarker(data.sub_districts[i],true));
+                }
+                AMap.event.addListener(mark, 'click', _onClick);
+            }
+            if(data.regions&&data.regions.length){
+                mark.type = 'sd'
+                for(var i = 0 ; i < data.regions.length; i += 1){
+                    mark.subMarkers.push(createMarker(data.regions[i],true));
+                }
+                AMap.event.addListener(mark, 'click', _onClick);
+            }
+            if(data.houses&&data.houses.length){
+                mark.type = 'rg'
+            }
+            return mark;
+        }
+        function setCenter(obj){
+            map.setCenter(obj.center)
+        }
+        var markerClick =  function(e){
+            var infoWindow = new AMap.InfoWindow();
+            console.log('click');
+            var info = e.target.source
+            console.log(e.target);
+            console.log(info);
+            infoWindow.setContent(createInfoWindow(info[0], info[1].join("<br>")))
+            infoWindow.open(map, e.target.getPosition())
+        }
+        function createInfoWindow(title, content) {
+           var info = document.createElement("div");
+           info.className = "info";
+
+           //可以通过下面的方式修改自定义窗体的宽高
+           //info.style.width = "400px";
+           // 定义顶部标题
+           var top = document.createElement("div");
+           var titleD = document.createElement("div");
+           var closeX = document.createElement("img");
+           top.className = "info-top";
+           titleD.innerHTML = title;
+        //    closeX.src = "http://webapi.amap.com/images/close2.gif";
+        //    closeX.onclick = closeInfoWindow;
+
+           top.appendChild(titleD);
+           top.appendChild(closeX);
+           info.appendChild(top);
+
+           // 定义中部内容
+           var middle = document.createElement("div");
+           middle.className = "info-middle";
+           middle.style.backgroundColor = 'white';
+           middle.innerHTML = content;
+           info.appendChild(middle);
+
+           // 定义底部内容
+           var bottom = document.createElement("div");
+           bottom.className = "info-bottom";
+           bottom.style.position = 'relative';
+           bottom.style.top = '0px';
+           bottom.style.margin = '0 auto';
+           // var sharp = document.createElement("img");
+           // sharp.src = "http://webapi.amap.com/images/sharp.png";
+           // bottom.appendChild(sharp);
+           info.appendChild(bottom);
+           return info;
+       }
+
+       //关闭信息窗体
+       function closeInfoWindow() {
+           map.clearInfoWindow();
+       }
+        var _onHover = function(e) {
+            if (e.target.source){
+                var info = e.target.source
+                console.log('hover_houses');
+                // infoWindow.createInfoWindow(info[0], info[1].join("<br>"));
+                // infoWindow.open(map, e.target.getPosition())
+            }else if (e.target.c){
+                c = e.target.c;
+                var options = {
+                    strokeColor: "#ace", //线颜色
+                    strokeOpacity: 0.5, //线透明度
+                    strokeWeight: 1, //线粗细度
+                    fillColor: "#aee", //填充颜色
+                    fillOpacity: 0.6,//填充透明度
+                    zIndex: 10
+                };
+                c.setOptions(options);
+            }
+        }
+        var _goHover = function(e) {
+            if(e.target.c){
+                c = e.target.c;
+                var options = {
+                    strokeColor: "#ace", //线颜色
+                    strokeOpacity: 0.5, //线透明度
+                    strokeWeight: 1, //线粗细度
+                    fillColor: "#8c5", //填充颜色
+                    fillOpacity: 0.2,//填充透明度
+                };
+                c.setOptions(options);
+            }
+        }
+        var _onClick = function(e) {
+            map.clearMap()
+            if(e.target.subMarkers.length){
+                if($.inArray(e.target.name, diss)>=0){
+                    // search(e.target.name);
+                }
+                sub = e.target.subMarkers
+                map.add(sub);
+                map.setFitView(sub);
+                for (var i = 0; i < sub.length; i += 1){
+                    c = sub[i].c
+                    r = c.getRadius()
+                    var options = {
+                        radius: r / 6,
+                        strokeColor: "#ace", //线颜色
+                        strokeOpacity: 0.5, //线透明度
+                        strokeWeight: 1, //线粗细度
+                        fillColor: "#8c5", //填充颜色
+                        fillOpacity: 0.2,//填充透明度
+                        zIndex: 3,
+                    };
+                    c.setOptions(options);
+                    map.add(c)
+                    AMap.event.addListener(sub[i], 'mouseover', _onHover);
+                    AMap.event.addListener(sub[i], 'mouseout', _goHover);
+                }
+                //map.remove(markers);
+                if (e.target.type === 'sd'){
+                    console.log('delete sub_districts')
+                    for (var i = 0; i < markers.length; i += 1){
+                        map.remove(markers[i].subMarkers)
+                    }
+                }
+            }
+        }
+        var _onZoomEnd = function(e) {
+            if (map.getZoom() < 10) {
+                map.clearMap()
+                for (var i = 0; i < markers.length; i += 1) {
+                    map.add(markers[i].c)
+                }
+                map.add(markers);
+            }
+            // if (map.getZoom() > 13) {
+            //     map.remove(markers);
+            //     for (var i = 0; i < markers.length; i += 1) {
+            //         map.remove(markers[i].c)
+            //         map.add(markers[i].subMarkers)
+            //     }
+            // }
+        }
+        var markers = [];
+        for (var i = 0; i < districts.length; i += 1) {
+            if($.inArray(districts[i].name, diss)>=0){
+                var mark = createMarker(districts[i]);
+                markers.push(mark);
+            }
+            AMap.event.addListener(mark, 'click', _onClick);
+            AMap.event.addListener(mark, 'mouseover', _onHover);
+            AMap.event.addListener(mark, 'mouseout', _goHover);
+        }
+        map.setFitView();
+        map.setFeatures(['bg','road','building','point'])
+        AMap.event.addListener(map, 'zoomend', _onZoomEnd);
+    </script>
+    <script type="text/javascript" src="http://webapi.amap.com/demos/js/liteToolbar.js"></script>
+  </body>
+</html>
