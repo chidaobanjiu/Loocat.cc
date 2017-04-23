@@ -1,19 +1,11 @@
-MANA2077
+别处 | Loocat
 =======================
 
-This repository contains the source code for my *personal-blog* **[www.mana2077.com](http://www.mana2077.com)**.
+This repository contains the source code for my *personal-blog* **[loocat.cc](http://loocat.cc)**.
 
-[中文说明](https://github.com/chidaobanjiu/mana2077/wiki/MANA2077.com-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
+[中文说明](https://github.com/chidaobanjiu/loocat.cc/wiki/MANA2077.com-%E4%B8%AD%E6%96%87%E8%AF%B4%E6%98%8E)
 
-#### Features
 
-1. User system
-   Guests can register with email to get permission of posting blogs.
-2. Writing blogs （Markdown supported）
-   Users can choose between Markdown（[SimpleMDE]） or Rich text editor（[CKEditor]）to write their blogs.
-3. BLogs tags and categories
-   Tags are more flexible compare to Categories. New tags can be created with editing your blogs easily.
-   
 #### Frameworks
 
 1. [Flask]  A Python Microframework
@@ -24,14 +16,10 @@ This repository contains the source code for my *personal-blog* **[www.mana2077.
 #### Deployment
 
 1. [DigitOcean] VPS as the server.
-2. gunicorn + nginx
-3. Domain on [namesilo.com]
+2. gunicorn + nginx + supervisor
+3. Redis MongoDB
 
 
 [Flask]:         http://flask.pocoo.org/
 [Bootstrap]:     http://getbootstrap.com/
 [jQuery]:        https://jquery.com/
-[DigitOcean]:    https://m.do.co/c/00276e485cb5
-[namesilo.com]:  https://www.namesilo.com/
-[SimpleMDE]:     https://simplemde.com/
-[CKEditor]:      http://ckeditor.com/
