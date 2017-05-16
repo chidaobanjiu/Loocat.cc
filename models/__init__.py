@@ -1,6 +1,8 @@
 import time
 from pymongo import MongoClient
 mongua = MongoClient()
+mongo_name = 'blog'
+mongua = mongua[mongo_name]
 
 
 def timestamp():
@@ -118,10 +120,6 @@ class Mongua(object):
                 setattr(m, k, v)
         setattr(m, '_id', bson['_id'])
         # 这一句必不可少，否则 bson 生成一个新的_id
-        # FIXME, 因为现在的数据库里面未必有 type
-        # 所以在这里强行加上
-        # 以后洗掉db的数据后应该删掉这一句
-        m.type = cls.__name__.lower()
         return m
 
     @classmethod
@@ -133,14 +131,12 @@ class Mongua(object):
         # return l
         return cls._find()
 
-    # TODO, 还应该有一个函数 find(name, **kwargs)
     @classmethod
     def _find(cls, **kwargs):
         """
         mongo 数据查询
         """
         name = cls.__name__
-        # TODO 过滤掉被删除的元素
         kwargs['deleted'] = False
         flag_sort = '__sort'
         sort = kwargs.pop(flag_sort, None)
@@ -190,10 +186,7 @@ class Mongua(object):
 
     @classmethod
     def find_one(cls, **kwargs):
-        """
-        """
-        # TODO 过滤掉被删除的元素
-        # kwargs['deleted'] = False
+        kwargs['deleted'] = False
         l = cls._find(**kwargs)
         # print('find one debug', kwargs, l)
         if len(l) > 0:
@@ -215,7 +208,7 @@ class Mongua(object):
         for k, v in form.items():
             if hard or hasattr(self, k):
                 setattr(self, k, v)
-        # self.updated_time = int(time.time()) fixme
+        self.updated_time = int(time.time())
         self.save()
 
     def save(self):
@@ -231,8 +224,6 @@ class Mongua(object):
             'deleted': True
         }
         mongua.db[name].update_one(query, {'$set': values})
-        # self.deleted = True
-        # self.save()
 
     def blacklist(self):
         b = [
@@ -243,7 +234,6 @@ class Mongua(object):
     def json(self):
         _dict = self.__dict__
         d = {k: v for k, v in _dict.items() if k not in self.blacklist()}
-        # TODO, 增加一个 type 属性
         return d
 
     def data_count(self, cls):
@@ -255,7 +245,7 @@ class Mongua(object):
         """
         name = cls.__name__
         # TODO, 这里应该用 type 替代
-        fk = '{}_id'.format(self.__class__.__name__.lower())
+        fk = '{}_id'.format(self.type)
         query = {
             fk: self.id,
         }

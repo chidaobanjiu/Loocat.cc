@@ -45,7 +45,7 @@ class Blog(Mongua):
 
     should_update_all = True
     # 1. memory cache
-    cache = MemoryCache()
+    # cache = MemoryCache()
     # 2. redis cahce
     redis_cache = RedisCache()
 
@@ -80,7 +80,7 @@ class Blog(Mongua):
 
     def save(self):
         super(Blog, self).save()
-        should_update_all = True
+        Blog.should_update_all = True
 
     @classmethod
     def cache_all(cls):

@@ -677,3 +677,31 @@ button {
     background-color: inherit;
     width: 100%;
 }
+code {
+  font-family: Input, monospace;
+  font-size: 1em;
+  padding: 2px 4px;
+  /*color: #9f8f68;*/
+  /*background-color: #f8f9f9;*/
+  color: #c7254e;
+  background-color: #f9f2f4;
+  /*border-radius: 4px*/
+}
+pre {
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: inherit;
+  border-radius: 1px;
+  white-space: pre
+}
+pre code {
+  color: #9f8f68;
+  background-color: inherit;
+  font-size: 1.1em;
+}

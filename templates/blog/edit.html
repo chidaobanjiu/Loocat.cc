@@ -26,6 +26,7 @@
     <meta name="twitter:domain" content="http://thomasvaeth.com">
     <meta property="twitter:image" content="https://unsplash.it/2000/1200?image=1058">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -88,12 +89,17 @@
           </div>
           <div class="form-group">
               <input type="hidden" name="author" value="{{ u.username }}" />
-              <textarea name="content" placeholder="content" class="form-control" rows="30">{{ blog.content }}</textarea>
+              <textarea id="text-input" name="content" placeholder="content" class="form-control edit-content" rows="30" oninput="Editor()">{{ blog.content }}</textarea>
           </div>
           <div class="form-group">
             <div class="input-group">
               <button type="submit" class="btn btn-default">提交更改</button>
             </div>
+          </div>
+          <div class="form-group">
+              <h3 class="name headline">Markdown Preview:</h3>
+              <p>----------------------------------------------</p>
+              <div id="preview"></div>
           </div>
         </form>
     </div>
@@ -136,6 +142,21 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 <script type="text/javascript" src="/static/js/app.js"></script>
+<script type="text/javascript" src="/static/js/marked.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+    var $ = function (id) { return document.getElementById(id); };
+    function Editor() {
+        var input = $("text-input")
+        var preview = $("preview")
+        this.update = function () {
+          preview.innerHTML = marked(input.value);
+        };
+        input.editor = this;
+        this.update();
+    }
+</script>
 
 
   </body>

@@ -28,7 +28,7 @@ app.jinja_env.filters['abstract'] = abstract
 
 if __name__ == '__main__':
     config = dict(
-        debug=True,
+        debug=False,
         host='0.0.0.0',
         port=2001,
     )

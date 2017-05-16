@@ -20,9 +20,9 @@ def datetimeformat(value, format="%B %d %Y"):
 
 
 
-def abstract(value, length=150):
+def abstract(value, length=50):
     lv = len(value)
-    if lv > 150:
+    if lv > length:
         abs = value[:length] + '... ...'
     else:
         abs = value

@@ -27,6 +27,7 @@
     <meta name="twitter:domain" content="http://thomasvaeth.com">
     <meta property="twitter:image" content="https://unsplash.it/2000/1200?image=1058">
 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -65,11 +66,13 @@
     </div>
   </header>
 
+
   <section class="section-padding bg-grey" itemprop="articleBody">
     <div class="post">
-      {{ blog.content }}
+      <div class="content">{{ blog.content }}</div>
     </div>
   </section>
+
 
   <section class="profile">
     <div class="profile__card">
@@ -103,10 +106,21 @@
 
     </main>
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 <script type="text/javascript" src="/static/js/app.js"></script>
-
+<script type="text/javascript" src="/static/js/marked.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+    var content = document.querySelector('.content').innerHTML;
+    document.querySelector('.content').innerHTML = marked(content);
+    marked.setOptions({
+      highlight: function (code) {
+        return require('highlight.js').highlightAuto(code).value;
+      }
+    });
+</script>
 
   </body>
 

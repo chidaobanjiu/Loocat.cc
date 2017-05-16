@@ -16,7 +16,7 @@
     <meta property="og:image" content="https://unsplash.it/2000/1200?image=1032">
     <meta property="og:type" content="blog">
 
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/styles/default.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata|Lora|Space+Mono:700">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -34,8 +34,8 @@
         <div>
             {% if cat %}
             <a class="nav nav--white" href="{{ url_for('.index')}}">
-              <i class="fa fa-lg fa-arrow-left"></i>
-              <span>Back to Blog</span>
+                <i class="fa fa-lg fa-arrow-left"></i>
+                <span>Back to Blog</span>
             </a>
 
             <figure class="absolute-bg preview__img"
@@ -79,22 +79,24 @@
                     {% if cat %}
                     {% for blog in blogs %}
                     <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-                        <a class="preview__link" href="{{ url_for('.view', blog_id=blog.id )}}" itemprop="url" >
-                        <span class="preview__date" itemprop="datePublished" datetime="{{ blog.created_time | datetime }}">{{ blog.created_time | datetime }}</span>
-                        <h2 class="preview__header" itemprop="name">{{ blog.title }}</h2>
-                        <p class="preview__excerpt" itemprop="description">{{ blog.content | abstract }}</p>
-                        <span class="preview__more">Read More</span>
+                        <a class="preview__link" href="{{ url_for('.view', blog_id=blog.id )}}" itemprop="url">
+                            <span class="preview__date" itemprop="datePublished"
+                                  datetime="{{ blog.created_time | datetime }}">{{ blog.created_time | datetime }}</span>
+                            <h2 class="preview__header" itemprop="name">{{ blog.title }}</h2>
+                            <p class="preview__excerpt content" itemprop="description">{{ blog.content | abstract }}</p>
+                            <span class="preview__more">Read More</span>
                         </a>
                     </li>
                     {% endfor %}
                     {% else %}
                     {% for blog in blogs %}
                     <li class="preview" itemprop="blogPost" itemscope itemtype="http://schema.org/BlogPosting">
-                        <a class="preview__link" href="{{ url_for('.view', blog_id=blog.id )}}" itemprop="url" >
-                        <span class="preview__date" itemprop="datePublished" datetime="{{ blog.created_time | datetime}}">{{ blog.created_time | datetime}}</span>
-                        <h2 class="preview__header" itemprop="name">{{ blog.title }}</h2>
-                        <p class="preview__excerpt" itemprop="description">{{ blog.content | abstract }}</p>
-                        <span class="preview__more">Read More</span>
+                        <a class="preview__link" href="{{ url_for('.view', blog_id=blog.id )}}" itemprop="url">
+                            <span class="preview__date" itemprop="datePublished"
+                                  datetime="{{ blog.created_time | datetime}}">{{ blog.created_time | datetime}}</span>
+                            <h2 class="preview__header" itemprop="name">{{ blog.title }}</h2>
+                            <p class="preview__excerpt content" itemprop="description">{{ blog.content | abstract }}</p>
+                            <span class="preview__more">Read More</span>
                         </a>
                     </li>
                     {% endfor %}
@@ -104,13 +106,13 @@
 
                 <div class="pagination">
                     {% if prev==0 %}
-                        <a href="{{ url_for('.index') }}">Prev</a>
+                    <a href="{{ url_for('.index') }}">Prev</a>
                     {% endif %}
                     {% if prev %}
-                        <a href="{{ url_for('.start', start_id=prev) }}">Prev</a>
+                    <a href="{{ url_for('.start', start_id=prev) }}">Prev</a>
                     {% endif %}
                     {% if next %}
-                        <a href="{{ url_for('.start', start_id=next) }}">Next</a>
+                    <a href="{{ url_for('.start', start_id=next) }}">Next</a>
                     {% endif %}
                 </div>
 
@@ -135,7 +137,8 @@
                     <li class="card">
                         <a class="card__link" href="{{ url_for('.new') }}">
                             <div class="card__img">
-                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=1010');"></figure>
+                                <figure class="absolute-bg"
+                                        style="background-image: url('https://unsplash.it/2000/1200?image=1010');"></figure>
                             </div>
                             <div class="card__container">
                                 <h2 class="card__header">写文章</h2>
@@ -148,7 +151,8 @@
                     <li class="card">
                         <a class="card__link" href="{{ url_for('admin.index') }}">
                             <div class="card__img">
-                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=1002');"></figure>
+                                <figure class="absolute-bg"
+                                        style="background-image: url('https://unsplash.it/2000/1200?image=1002');"></figure>
                             </div>
                             <div class="card__container">
                                 <h2 class="card__header">管理界面</h2>
@@ -193,28 +197,57 @@
 
                 <ul class="cards">
 
-                    <li class="card">
-                        <a class="card__link" href="{{ url_for('.profile') }}">
-                            <div class="card__img">
-                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=486');"></figure>
-                            </div>
-                            <div class="card__container">
-                                <h2 class="card__header">个人简历</h2>
-                                <p class="card__count">感谢您的关注</p>
-                                <span class="card__more">Look for work...</span>
-                            </div>
-                        </a>
-                    </li>
+                    <!--<li class="card">-->
+                    <!--<a class="card__link" href="{{ url_for('.profile') }}">-->
+                    <!--<div class="card__img">-->
+                    <!--<figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=486');"></figure>-->
+                    <!--</div>-->
+                    <!--<div class="card__container">-->
+                    <!--<h2 class="card__header">个人简历</h2>-->
+                    <!--<p class="card__count">感谢您的关注</p>-->
+                    <!--<span class="card__more">Look for work...</span>-->
+                    <!--</div>-->
+                    <!--</a>-->
+                    <!--</li>-->
 
                     <li class="card">
-                        <a class="card__link" href="{{ url_for('map.index') }}">
+                        <a class="card__link" href="{{ url_for('map.index')}}" target="_blank">
                             <div class="card__img">
-                                <figure class="absolute-bg" style="background-image: url('https://unsplash.it/2000/1200?image=442');"></figure>
+                                <figure class="absolute-bg"
+                                        style="background-image: url('https://unsplash.it/2000/1200?image=442');"></figure>
                             </div>
                             <div class="card__container">
                                 <h2 class="card__header">基於高德的二手房市場展示</h2>
                                 <p class="card__count">上車嗎，要走了-_-</p>
                                 <span class="card__more">Powered by 高德<br>Data from 链家</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="card">
+                        <a class="card__link" href="http://bbs.loocat.cc/topic" target="_blank">
+                            <div class="card__img">
+                                <figure class="absolute-bg"
+                                        style="background-image: url('https://unsplash.it/2000/1200?image=42');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">Loocat-BBS 论坛</h2>
+                                <p class="card__count">爱好者聚集地</p>
+                                <span class="card__more">Powered by Flask<br>Database-MongoDB</span>
+                            </div>
+                        </a>
+                    </li>
+
+                    <li class="card">
+                        <a class="card__link" href="https://github.com/chidaobanjiu/weibo" target="_blank">
+                            <div class="card__img">
+                                <figure class="absolute-bg"
+                                        style="background-image: url('https://unsplash.it/2000/1200?image=66');"></figure>
+                            </div>
+                            <div class="card__container">
+                                <h2 class="card__header">Ajax weibo</h2>
+                                <p class="card__count">weili</p>
+                                <span class="card__more">Socket 服务器<br>Ajax 交互</span>
                             </div>
                         </a>
                     </li>
@@ -241,7 +274,23 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/rellax/1.0.0/rellax.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
 <script type="text/javascript" src="/static/js/app.js"></script>
-
+<script type="text/javascript" src="/static/js/marked.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script>
+    marked.setOptions({
+      renderer: new marked.Renderer(),
+      gfm: true,
+      tables: true,
+      breaks: false,
+      pedantic: false,
+      sanitize: false,
+      smartLists: true,
+      smartypants: false
+    });
+    var content = document.querySelector('.content').innerHTML;
+    document.querySelector('.content').innerHTML = marked(content);
+</script>
 
 </body>
 

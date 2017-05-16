@@ -43,6 +43,7 @@ def login():
         return redirect(url_for('.index'))
     else:
         # session 中写入 user_id
+        session.permanent = True
         session['user_id'] = u.id
         return redirect(url_for('blog.index'))
 
