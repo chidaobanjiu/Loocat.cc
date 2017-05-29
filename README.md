@@ -1,4 +1,4 @@
-## 别处 | Loocat
+别处 | Loocat
 =======================
 
 This repository contains the source code for my *personal-blog* **[loocat.cc](http://loocat.cc)**.
@@ -25,10 +25,8 @@ This repository contains the source code for my *personal-blog* **[loocat.cc](ht
 
 - [trophy] A blog theme for jekyll by thomasvaeth
 
+### Lines
 
-
-#### Lines
-
-- [Flask]:         http://flask.pocoo.org/
-- [Bootstrap]:     http://getbootstrap.com/
-- [trophy]:        https://github.com/thomasvaeth/trophy-jekyll
+- [Flask]:    http://flask.pocoo.org/
+- [Bootstrap]:    http://getbootstrap.com/
+- [trophy]:     https://github.com/thomasvaeth/trophy-jekyll
