@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #blog
 =======
 别处 | Loocat
@@ -26,4 +25,4 @@ This repository contains the source code for my *personal-blog* **[loocat.cc](ht
 [Flask]:         http://flask.pocoo.org/
 [Bootstrap]:     http://getbootstrap.com/
 [jQuery]:        https://jquery.com/
->>>>>>> origin/master
+origin/master
