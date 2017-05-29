@@ -23,10 +23,14 @@ This repository contains the source code for my *personal-blog* **[loocat.cc](ht
 
 ### Design
 
-- [trophy] A blog theme for jekyll by thomasvaeth
+- [Trophy] A blog theme for jekyll by thomasvaeth
 
 ### Lines
 
 - [Flask]:    http://flask.pocoo.org/
 - [Bootstrap]:    http://getbootstrap.com/
 - [trophy]:     https://github.com/thomasvaeth/trophy-jekyll
+
+### License
+
+Loocat is licensed under the MIT License.
