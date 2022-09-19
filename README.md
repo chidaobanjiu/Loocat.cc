@@ -1,5 +1,6 @@
-别处 | Loocat
+~~别处 | Loocat~~
 =======================
+
 
 This repository contains the source code for my *personal-blog* **[loocat.cc](http://loocat.cc)**.
 
